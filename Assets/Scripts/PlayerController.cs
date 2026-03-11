@@ -21,10 +21,15 @@ public class PlayerController : MonoBehaviour
 
     private float targetSpeed;
     private float accelRate;
+    //private bool isGroundedEDGE;
 
     public Transform groundCheck;
     public float groundCheckDistance = .12f;
     public Vector2 groundCheckOffset = new Vector2(0f, -.5f);
+
+    public Transform groundCheckLEFT;
+    public Transform groundCheckRIGHT;
+
     public LayerMask groundLayer;
     private Rigidbody2D rb;
     private float XInput;
@@ -130,9 +135,25 @@ public class PlayerController : MonoBehaviour
 
     // CHECK IF GROUNDED ----------------------------------------------------
 
+        //MIDDLE
         Vector2 rayOrigin = groundCheck != null ? (Vector2)groundCheck.position : (Vector2)transform.position + groundCheckOffset;
         RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, groundCheckDistance, groundLayer);
-        isGrounded = hit.collider != null && !(rb.linearVelocity.y > 0.01f);
+        //isGrounded = hit.collider != null && !(rb.linearVelocity.y > 0.01f);
+
+        //LEFT
+        Vector2 rayOriginLEFT = groundCheck != null ? (Vector2)groundCheckLEFT.position : (Vector2)transform.position + groundCheckOffset;
+        RaycastHit2D hitLEFT = Physics2D.Raycast(rayOriginLEFT, Vector2.down, groundCheckDistance, groundLayer);
+
+        //RIGHT
+        Vector2 rayOriginRIGHT = groundCheck != null ? (Vector2)groundCheckRIGHT.position : (Vector2)transform.position + groundCheckOffset;
+        RaycastHit2D hitRIGHT = Physics2D.Raycast(rayOriginRIGHT, Vector2.down, groundCheckDistance, groundLayer);
+
+        //bool hitEDGE = hitLEFT.collider || hitRIGHT.collider;
+        //isGroundedEDGE = hitEDGE && !(rb.linearVelocity.y > 0.01f);
+
+        isGrounded = (hit.collider != null 
+                        || hitLEFT.collider != null 
+                        || hitRIGHT.collider != null) && !(rb.linearVelocity.y > 0.01f);
 
     // ACCELERATION ---------------------------------------------------------
 
@@ -145,7 +166,7 @@ public class PlayerController : MonoBehaviour
 
     // COYOTE ---------------------------------------------------------------
 
-        if (isGrounded)
+        if (isGrounded /*&& isGroundedEDGE*/)
         {
             coyoteTimeCounter = coyoteTime;
             canDash = true;
@@ -200,6 +221,7 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("Speed", Mathf.Abs(XInput));
         anim.SetFloat("YSpeed", rb.linearVelocity.y);
         anim.SetBool("isGrounded", isGrounded);
+        //anim.SetBool("isGroundedEDGE", isGroundedEDGE);
         }
 
     // FAST FALL ON JUMP -----------------------------------------------------
@@ -216,7 +238,7 @@ public class PlayerController : MonoBehaviour
         else
             isJumpFalling = false;
 
-    bool inAir = !isGrounded;
+    bool inAir = !isGrounded /*&& !isGroundedEDGE*/;
     bool nearY0 = Mathf.Abs(rb.linearVelocity.y) < jumpHangTimeThreshold;
     bool inJumping = inAir && nearY0;
 
@@ -280,7 +302,7 @@ void FixedUpdate()
 
     private bool WallSlide()
     {
-        if (isWalled() && !isGrounded && XInput != 0f)
+        if (isWalled() && !isGrounded && !isGroundedEDGE && XInput != 0f)
         {
             isWallSliding = true;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Clamp(rb.linearVelocity.y, -wallSlidingSpeed, float.MaxValue));
@@ -349,6 +371,28 @@ void FixedUpdate()
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(groundCheck.position, groundCheck.position + Vector3.down * groundCheckDistance);
+        }
+        else
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position + (Vector3)groundCheckOffset, transform.position + (Vector3)groundCheckOffset + Vector3.down * groundCheckDistance);
+        }
+
+        if (groundCheckLEFT != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(groundCheckLEFT.position, groundCheckLEFT.position + Vector3.down * groundCheckDistance);
+        }
+        else
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position + (Vector3)groundCheckOffset, transform.position + (Vector3)groundCheckOffset + Vector3.down * groundCheckDistance);
+        }
+
+        if (groundCheckRIGHT != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(groundCheckRIGHT.position, groundCheckRIGHT.position + Vector3.down * groundCheckDistance);
         }
         else
         {
