@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 /*
 ------------------- NOTES -------------------
@@ -35,7 +36,13 @@ public class PlayerController : MonoBehaviour
     private float XInput;
     private float YInput;
     private bool isGrounded;
-    private SpriteRenderer spriteRenderer;
+
+    //this is only for old flip
+    //private SpriteRenderer spriteRenderer;
+
+    //new flip
+    public bool isFacingRight = true;
+
     private Animator anim;
 
     [SerializeField] private float coyoteTime = 0.2f;
@@ -77,16 +84,33 @@ public class PlayerController : MonoBehaviour
 
     public TilemapSwitch tilemapswitch;
 
+    public ParticleSystem smokeFX;
+
+    //dash controller input fix var
+    float dashTrigger;
+    bool dashPressed;
+    bool triggerWasPressedLastFrame;
+
+    //camera follow
+    //private CameraFollowObject cameraFollowObject;
+    [SerializeField] private GameObject cameraFollowGO;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        //spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         tr = GetComponent<TrailRenderer>();
 
         defaultGravityScale = rb.gravityScale;
+
+        Vector3 rotator = transform.eulerAngles;
+        rotator.y = isFacingRight ? 0f : -180f;
+        transform.eulerAngles = rotator;
+        
+        //cameraFollowObject = cameraFollowGO.GetComponent<CameraFollowObject>();
     }
 
     // Update is called once per frame
@@ -96,6 +120,30 @@ public class PlayerController : MonoBehaviour
         XInput = Input.GetAxisRaw("Horizontal");
         YInput = Input.GetAxisRaw("Vertical");
         var dashInput = Input.GetButtonDown("Dash") /*|| Input.GetKeyDown(KeyCode.Keypad4)*/;
+
+        // JOYSTICK CONTROLS ---------------------------------------------------
+
+        float dpadX = Input.GetAxisRaw("HorizontalDPad");
+        float dpadY = Input.GetAxisRaw("VerticalDPad");
+
+        float stickX = Input.GetAxisRaw("HorizontalStick");
+        float stickY = Input.GetAxisRaw("VerticalStick");
+
+        if (Mathf.Abs(stickX) < 0.6f) stickX = 0f; //fixes possible stick drifts
+        if (Mathf.Abs(stickY) < 0.6f) stickY = 0f; //fixes possible stick drifts
+
+        if (Mathf.Abs(stickX) > 0.1f) XInput = stickX;
+        if (Mathf.Abs(stickY) > 0.1f) YInput = stickY;
+
+        if (Mathf.Abs(dpadX) > 0.1f) XInput = dpadX;
+        if (Mathf.Abs(dpadY) > 0.1f) YInput = dpadY;
+
+        dashTrigger = Input.GetAxisRaw("DashTrigger");
+        bool triggerPressedNow = dashTrigger > 0.2f;
+        dashPressed = triggerPressedNow && !triggerWasPressedLastFrame;
+        triggerWasPressedLastFrame = triggerPressedNow;
+
+        dashInput = dashInput || dashPressed;
 
         // DASH -----------------------------------------------------------------
 
@@ -111,12 +159,13 @@ public class PlayerController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioManager.Instance.dashSFX);
             }
 
+            smokeFX.Play();
             tilemapswitch.TilemapSwitcheroo(); //TILEMAP SWITCHEROOOO
             CameraShakeManager.Instance.Shake(1.2f, 0.1f); //CAMERA SHAKEEE
 
             if (dashingDir == Vector2.zero)
             {
-                float facing = spriteRenderer.flipX ? -1f : 1f;
+                float facing = isFacingRight ? -1f : 1f;
                 dashingDir = new Vector2(facing, 0f);
             }
             StartCoroutine(StopDashing());
@@ -196,7 +245,7 @@ public class PlayerController : MonoBehaviour
             jumpBufferCounter = 0f;
         }
 
-        // HIGHER JUMP ON HOLD -------------------------------------------------
+        // HIGHER JUMP ON HOLD ------------------------------------------------------
 
         if (Input.GetButtonUp("Jump") && rb.linearVelocity.y > 0f)
         {
@@ -205,14 +254,16 @@ public class PlayerController : MonoBehaviour
             coyoteTimeCounter = 0f;
         }
 
-        // SPRITE FLIP --------------------------------------------------------------
+        // OLD SPRITE FLIP ----------------------------------------------------------
 
         //if (!isWallJumping)
-        if (spriteRenderer != null)
+        /*if (spriteRenderer != null)
         {
-            if (XInput > .1f) spriteRenderer.flipX = false;
-            if (XInput < -.1f) spriteRenderer.flipX = true;
-        }
+            if (XInput > .2f) spriteRenderer.flipX = false;
+            if (XInput < -.2f) spriteRenderer.flipX = true;
+
+            //if (rb.linearVelocity.y == 0) smokeFX.Play();
+        }*/
 
         // ANIMATION VARIABLES ------------------------------------------------------
 
@@ -265,6 +316,49 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void TurnCheck()
+    {
+        if (XInput > 0 && !isFacingRight) Turn();
+        else if (XInput < 0 && isFacingRight) Turn();
+    }
+
+    private void Turn()
+    {
+
+        //flip by transforming the scale ? 1 : -1
+
+        // isFacingRight = !isFacingRight;
+
+        // Vector3 scale = transform.localScale;
+        // scale.x *= -1f;
+        // transform.localScale = scale;
+
+        // flip by Y rotation ? 0 : 180
+
+        if (isFacingRight)
+        {
+            Vector3 rotator = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
+            transform.rotation = Quaternion.Euler(rotator);
+            isFacingRight = !isFacingRight;
+
+            //turn the camera follow object
+            //cameraFollowObject.CallTurn();
+        }
+        else
+        {
+            Vector3 rotator = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
+            transform.rotation = Quaternion.Euler(rotator);
+            isFacingRight = !isFacingRight;
+
+            //turn the camera follow object
+            //cameraFollowObject.CallTurn();
+        }
+    }
+
+    public bool IsFacingRight()
+    {
+        return isFacingRight;
+    }
 
     // OLD FIXEDUPDATE -------------------------------------------------------
 
@@ -288,6 +382,14 @@ public class PlayerController : MonoBehaviour
 
         if (rb.linearVelocity.y < -maxFallSpeed)
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, -maxFallSpeed);
+
+        // TURN PLAYER --------------------------------------------------------
+        
+        if (XInput > 0 || XInput < 0)
+        {
+            TurnCheck();
+        }
+
     }
 
     // WALL SLIDE -------------------------------------------------------------
@@ -358,7 +460,7 @@ public class PlayerController : MonoBehaviour
 
         //stops dash momentum
         if (rb.linearVelocity.y > 0f)
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, defaultGravityScale * 1.5f);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, defaultGravityScale * 1.5f);
 
     }
 

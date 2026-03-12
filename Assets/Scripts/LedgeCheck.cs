@@ -6,6 +6,7 @@ public class LedgeCheck : MonoBehaviour
     public Transform rightcheck;
     public LayerMask groundLayer;
     [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private PlayerController playerController;
 
     private void Update()
     {
@@ -31,17 +32,37 @@ public class LedgeCheck : MonoBehaviour
         // RaycastHit2D hit_rightI = Physics2D.Raycast(lriRIGHT, Vector2.up, groundCheckDistance, groundLayer);
         // bool hitRinner = hit_rightI.collider != null;
 
-        bool hitLeft = Physics2D.OverlapBox(leftcheck.position, new Vector2(0.25f, 0.25f), 0f, groundLayer);
-        bool hitRight = Physics2D.OverlapBox(rightcheck.position, new Vector2(0.25f, 0.25f), 0f, groundLayer);
+        bool hitLeftCheck = Physics2D.OverlapBox(leftcheck.position, new Vector2(0.25f, 0.25f), 0f, groundLayer);
+        bool hitRightCheck = Physics2D.OverlapBox(rightcheck.position, new Vector2(0.25f, 0.25f), 0f, groundLayer);
 
         // Push away from the ledge
+        // if (rb.linearVelocity.y > 0f)
+        // {
+        //     if (hitLeft)
+        //         rb.position += Vector2.right * ledgePushAmount;
+
+        //     if (hitRight)
+        //         rb.position += Vector2.left * ledgePushAmount;
+        // }
+
         if (rb.linearVelocity.y > 0f)
         {
-            if (hitLeft)
-                rb.position += Vector2.right * ledgePushAmount;
+            if (playerController.IsFacingRight())
+            {
+                if (hitLeftCheck)
+                    rb.position += Vector2.right * ledgePushAmount;
 
-            if (hitRight)
-                rb.position += Vector2.left * ledgePushAmount;
+                if (hitRightCheck)
+                    rb.position += Vector2.left * ledgePushAmount;
+            }
+            else
+            {
+                if (hitLeftCheck)
+                    rb.position += Vector2.left * ledgePushAmount;
+
+                if (hitRightCheck)
+                    rb.position += Vector2.right * ledgePushAmount;
+            }
         }
     }
 }
