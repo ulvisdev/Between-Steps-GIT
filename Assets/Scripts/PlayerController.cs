@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
         Vector3 rotator = transform.eulerAngles;
         rotator.y = isFacingRight ? 0f : -180f;
         transform.eulerAngles = rotator;
-        
+
         //cameraFollowObject = cameraFollowGO.GetComponent<CameraFollowObject>();
     }
 
@@ -147,28 +147,31 @@ public class PlayerController : MonoBehaviour
 
         // DASH -----------------------------------------------------------------
 
-        if (dashInput && canDash)
+        if (!PauseMenuManager.isPaused)
         {
-            isDashing = true;
-            canDash = false;
-            tr.emitting = true;
-            dashingDir = new Vector2(XInput, YInput);
-
-            if (AudioManager.Instance != null && AudioManager.Instance.dashSFX != null)
+            if (dashInput && canDash)
             {
-                AudioManager.Instance.PlaySFX(AudioManager.Instance.dashSFX);
-            }
+                isDashing = true;
+                canDash = false;
+                tr.emitting = true;
+                dashingDir = new Vector2(XInput, YInput);
 
-            smokeFX.Play();
-            tilemapswitch.TilemapSwitcheroo(); //TILEMAP SWITCHEROOOO
-            CameraShakeManager.Instance.Shake(1.2f, 0.1f); //CAMERA SHAKEEE
+                if (AudioManager.Instance != null && AudioManager.Instance.dashSFX != null)
+                {
+                    AudioManager.Instance.PlaySFX(AudioManager.Instance.dashSFX);
+                }
 
-            if (dashingDir == Vector2.zero)
-            {
-                float facing = isFacingRight ? -1f : 1f;
-                dashingDir = new Vector2(facing, 0f);
+                smokeFX.Play();
+                tilemapswitch.TilemapSwitcheroo(); //TILEMAP SWITCHEROOOO
+                CameraShakeManager.Instance.Shake(1.2f, 0.1f); //CAMERA SHAKEEE
+
+                if (dashingDir == Vector2.zero)
+                {
+                    float facing = isFacingRight ? -1f : 1f;
+                    dashingDir = new Vector2(facing, 0f);
+                }
+                StartCoroutine(StopDashing());
             }
-            StartCoroutine(StopDashing());
         }
 
         //bool for animating with dash
@@ -206,12 +209,15 @@ public class PlayerController : MonoBehaviour
 
         // ACCELERATION ---------------------------------------------------------
 
-        targetSpeed = XInput * maxRunSpeed;
+        if (!PauseMenuManager.isPaused)
+        {
+            targetSpeed = XInput * maxRunSpeed;
 
-        if (Mathf.Abs(targetSpeed) > 0.01f)
-            accelRate = runAcceleration;
-        else
-            accelRate = runDeceleration;
+            if (Mathf.Abs(targetSpeed) > 0.01f)
+                accelRate = runAcceleration;
+            else
+                accelRate = runDeceleration;
+        }
 
         // COYOTE ---------------------------------------------------------------
 
@@ -223,35 +229,40 @@ public class PlayerController : MonoBehaviour
         else coyoteTimeCounter -= Time.deltaTime;
 
         // JUMP BUFFER ----------------------------------------------------------
-
-        if (Input.GetButtonDown("Jump") /*|| Input.GetKeyDown(KeyCode.W)*/)
+        if (!PauseMenuManager.isPaused)
         {
-            jumpBufferCounter = jumpBufferTime;
-        }
-        else
-        {
-            jumpBufferCounter -= Time.deltaTime;
-        }
-
-        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
-        {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-
-            if (AudioManager.Instance != null && AudioManager.Instance.jumpSFX != null)
+            if (Input.GetButtonDown("Jump") /*|| Input.GetKeyDown(KeyCode.W)*/)
             {
-                AudioManager.Instance.PlaySFX(AudioManager.Instance.jumpSFX);
+                jumpBufferCounter = jumpBufferTime;
+            }
+            else
+            {
+                jumpBufferCounter -= Time.deltaTime;
             }
 
-            jumpBufferCounter = 0f;
+            if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
+            {
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+
+                if (AudioManager.Instance != null && AudioManager.Instance.jumpSFX != null)
+                {
+                    AudioManager.Instance.PlaySFX(AudioManager.Instance.jumpSFX);
+                }
+
+                jumpBufferCounter = 0f;
+            }
         }
 
         // HIGHER JUMP ON HOLD ------------------------------------------------------
 
-        if (Input.GetButtonUp("Jump") && rb.linearVelocity.y > 0f)
+        if (!PauseMenuManager.isPaused)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.4f); //change this 0.0f to lower the smallest jump possible
+            if (Input.GetButtonUp("Jump") && rb.linearVelocity.y > 0f)
+            {
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.4f); //change this 0.0f to lower the smallest jump possible
 
-            coyoteTimeCounter = 0f;
+                coyoteTimeCounter = 0f;
+            }
         }
 
         // OLD SPRITE FLIP ----------------------------------------------------------
@@ -384,7 +395,7 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, -maxFallSpeed);
 
         // TURN PLAYER --------------------------------------------------------
-        
+
         if (XInput > 0 || XInput < 0)
         {
             TurnCheck();
