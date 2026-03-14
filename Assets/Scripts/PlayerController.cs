@@ -147,8 +147,8 @@ public class PlayerController : MonoBehaviour
 
         // DASH -----------------------------------------------------------------
 
-        if (!PauseMenuManager.isPaused)
-        {
+        //if (!PauseMenuManager.isPaused)
+        //{
             if (dashInput && canDash)
             {
                 isDashing = true;
@@ -167,12 +167,12 @@ public class PlayerController : MonoBehaviour
 
                 if (dashingDir == Vector2.zero)
                 {
-                    float facing = isFacingRight ? -1f : 1f;
+                    float facing = isFacingRight ? 1f : -1f;
                     dashingDir = new Vector2(facing, 0f);
                 }
                 StartCoroutine(StopDashing());
             }
-        }
+        //}
 
         //bool for animating with dash
         anim.SetBool("IsDashing", isDashing);
@@ -209,15 +209,15 @@ public class PlayerController : MonoBehaviour
 
         // ACCELERATION ---------------------------------------------------------
 
-        if (!PauseMenuManager.isPaused)
-        {
+        //if (!PauseMenuManager.isPaused)
+        //{
             targetSpeed = XInput * maxRunSpeed;
 
             if (Mathf.Abs(targetSpeed) > 0.01f)
                 accelRate = runAcceleration;
             else
                 accelRate = runDeceleration;
-        }
+        //}
 
         // COYOTE ---------------------------------------------------------------
 
@@ -229,8 +229,8 @@ public class PlayerController : MonoBehaviour
         else coyoteTimeCounter -= Time.deltaTime;
 
         // JUMP BUFFER ----------------------------------------------------------
-        if (!PauseMenuManager.isPaused)
-        {
+        //if (!PauseMenuManager.isPaused)
+        //{
             if (Input.GetButtonDown("Jump") /*|| Input.GetKeyDown(KeyCode.W)*/)
             {
                 jumpBufferCounter = jumpBufferTime;
@@ -251,19 +251,19 @@ public class PlayerController : MonoBehaviour
 
                 jumpBufferCounter = 0f;
             }
-        }
+        //}
 
         // HIGHER JUMP ON HOLD ------------------------------------------------------
 
-        if (!PauseMenuManager.isPaused)
-        {
+        //if (!PauseMenuManager.isPaused)
+        //{
             if (Input.GetButtonUp("Jump") && rb.linearVelocity.y > 0f)
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.4f); //change this 0.0f to lower the smallest jump possible
 
                 coyoteTimeCounter = 0f;
             }
-        }
+        //}
 
         // OLD SPRITE FLIP ----------------------------------------------------------
 

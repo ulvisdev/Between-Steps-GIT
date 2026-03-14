@@ -1,0 +1,287 @@
+fileFormatVersion: 2
+guid: 7e2de1494aef40842ab2574c209e0639
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4698081936659967395
+    second: bs-thanku_0
+  - first:
+      213: 6903117387404464772
+    second: bs-thanku_1
+  - first:
+      213: -3302901892097551962
+    second: bs-thanku_2
+  - first:
+      213: -412422753643121582
+    second: bs-thanku_3
+  - first:
+      213: -3546354259726431842
+    second: bs-thanku_4
+  - first:
+      213: -1299088350526639811
+    second: bs-thanku_5
+  - first:
+      213: -2672131017005446151
+    second: bs-thanku_6
+  - first:
+      213: -5120519684124672483
+    second: bs-thanku_7
+  - first:
+      213: -7804972785623250490
+    second: bs-thanku_8
+  - first:
+      213: -6962937238374348708
+    second: bs-thanku_9
+  - first:
+      213: 3025046823034519507
+    second: bs-thanku_10
+  - first:
+      213: 512469938594713924
+    second: bs-thanku_11
+  - first:
+      213: 7414572090177651299
+    second: bs-thanku_12
+  - first:
+      213: -6769322447711950478
+    second: bs-thanku_13
+  - first:
+      213: 6185249045893343456
+    second: bs-thanku_14
+  - first:
+      213: 8975996252996670769
+    second: bs-thanku_15
+  - first:
+      213: -6350880000066043104
+    second: bs-thanku_16
+  - first:
+      213: -4983614905731163432
+    second: bs-thanku_17
+  - first:
+      213: 6991383598914534222
+    second: bs-thanku_18
+  - first:
+      213: -6586425171906899795
+    second: bs-thanku_19
+  - first:
+      213: 1638458340596053155
+    second: bs-thanku_20
+  - first:
+      213: -8584395010205925930
+    second: bs-thanku_21
+  - first:
+      213: 2666883216097429558
+    second: bs-thanku_22
+  - first:
+      213: 6548222637061868665
+    second: bs-thanku_23
+  - first:
+      213: 906565046376179318
+    second: bs-thanku_24
+  - first:
+      213: -7374518771431472902
+    second: bs-thanku_25
+  - first:
+      213: -4484728379001224574
+    second: bs-thanku_26
+  - first:
+      213: 8443039485669164631
+    second: bs-thanku_27
+  - first:
+      213: -8515478384016790175
+    second: bs-thanku_28
+  - first:
+      213: 7185784418253860824
+    second: bs-thanku_29
+  - first:
+      213: 7817001862588365930
+    second: bs-thanku_30
+  - first:
+      213: 2452382680335308873
+    second: bs-thanku_31
+  - first:
+      213: -5625868871749735057
+    second: bs-thanku_32
+  - first:
+      213: -5470962744737274596
+    second: bs-thanku_33
+  - first:
+      213: -6863924586534439695
+    second: bs-thanku_34
+  - first:
+      213: -2030355389428515393
+    second: bs-thanku_35
+  - first:
+      213: -4798884753701406206
+    second: bs-thanku_36
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: bs-thanku_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3adeb4041a0f23140800000000000000
+      internalID: 4698081936659967395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bs-thanku_1
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 128
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 482d01780bccccf50800000000000000
+      internalID: 6903117387404464772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 3e40e8b758c02a84b817a78ce906d997
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      bs-thanku_0: 4698081936659967395
+      bs-thanku_1: 6903117387404464772
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

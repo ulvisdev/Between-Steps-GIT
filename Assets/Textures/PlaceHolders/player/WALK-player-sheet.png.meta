@@ -1,0 +1,437 @@
+fileFormatVersion: 2
+guid: c8d530d608fb4744fba2e2d218f210db
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4741380547443051941
+    second: WALK-player-sheet_0
+  - first:
+      213: 7060836898310639866
+    second: WALK-player-sheet_1
+  - first:
+      213: 2884823552256279269
+    second: WALK-player-sheet_2
+  - first:
+      213: -263082216777912778
+    second: WALK-player-sheet_3
+  - first:
+      213: -1896766309688197882
+    second: WALK-player-sheet_4
+  - first:
+      213: -5312893916868257351
+    second: WALK-player-sheet_5
+  - first:
+      213: 9153591813633765218
+    second: WALK-player-sheet_6
+  - first:
+      213: -4924984456055902614
+    second: WALK-player-sheet_7
+  - first:
+      213: -1823856786056821243
+    second: WALK-player-sheet_8
+  - first:
+      213: -4997495406343117205
+    second: WALK-player-sheet_9
+  - first:
+      213: 8376179112006680076
+    second: WALK-player-sheet_10
+  - first:
+      213: -7657024295775920907
+    second: WALK-player-sheet_11
+  - first:
+      213: -5067467415535976212
+    second: WALK-player-sheet_12
+  - first:
+      213: 1889659776480144570
+    second: WALK-player-sheet_13
+  - first:
+      213: -3897881848265090594
+    second: WALK-player-sheet_14
+  - first:
+      213: -3146370257326340663
+    second: WALK-player-sheet_15
+  - first:
+      213: 9010910709432783840
+    second: WALK-player-sheet_16
+  - first:
+      213: -7307700279520575982
+    second: WALK-player-sheet_17
+  - first:
+      213: -7405931280824323628
+    second: WALK-player-sheet_18
+  - first:
+      213: -9217963769624836377
+    second: WALK-player-sheet_19
+  - first:
+      213: 7630351812571171188
+    second: WALK-player-sheet_20
+  - first:
+      213: 924943357486818986
+    second: WALK-player-sheet_21
+  - first:
+      213: -3038583108295158467
+    second: WALK-player-sheet_22
+  - first:
+      213: -6028775799537446973
+    second: WALK-player-sheet_23
+  - first:
+      213: 6924499191502722885
+    second: WALK-player-sheet_24
+  - first:
+      213: -2340111415555968716
+    second: WALK-player-sheet_25
+  - first:
+      213: 8093695817197517331
+    second: WALK-player-sheet_26
+  - first:
+      213: 8882153624125496783
+    second: WALK-player-sheet_27
+  - first:
+      213: -7587987279834119301
+    second: WALK-player-sheet_28
+  - first:
+      213: -3595701591095223687
+    second: WALK-player-sheet_29
+  - first:
+      213: -6044631389093033359
+    second: WALK-player-sheet_30
+  - first:
+      213: 2370324639559276004
+    second: WALK-player-sheet_31
+  - first:
+      213: 371828899285544228
+    second: WALK-player-sheet_32
+  - first:
+      213: 5570639059407391481
+    second: WALK-player-sheet_33
+  - first:
+      213: -1846900081858989812
+    second: WALK-player-sheet_34
+  - first:
+      213: -9138278653910880986
+    second: WALK-player-sheet_35
+  - first:
+      213: -4415559781093100511
+    second: WALK-player-sheet_36
+  - first:
+      213: 1404184639073810042
+    second: WALK-player-sheet_37
+  - first:
+      213: 7138709262990868302
+    second: WALK-player-sheet_38
+  - first:
+      213: 4856929185997412063
+    second: WALK-player-sheet_39
+  - first:
+      213: -1348061207709533802
+    second: WALK-player-sheet_40
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: WALK-player-sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ad4a4bac74ccc140800000000000000
+      internalID: 4741380547443051941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WALK-player-sheet_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af0d6c4cfb12df160800000000000000
+      internalID: 7060836898310639866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WALK-player-sheet_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e28aef7cb3f80820800000000000000
+      internalID: 2884823552256279269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WALK-player-sheet_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63eea322e18595cf0800000000000000
+      internalID: -263082216777912778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WALK-player-sheet_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60d3b1147155da5e0800000000000000
+      internalID: -1896766309688197882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WALK-player-sheet_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b9dbbba12fc446b0800000000000000
+      internalID: -5312893916868257351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WALK-player-sheet_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26f6096b147180f70800000000000000
+      internalID: 9153591813633765218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WALK-player-sheet_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6ea77c1bb0f6abb0800000000000000
+      internalID: -4924984456055902614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 20a61e9f67040ce4b856a637288f7d7a
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      WALK-player-sheet_0: 4741380547443051941
+      WALK-player-sheet_1: 7060836898310639866
+      WALK-player-sheet_2: 2884823552256279269
+      WALK-player-sheet_3: -263082216777912778
+      WALK-player-sheet_4: -1896766309688197882
+      WALK-player-sheet_5: -5312893916868257351
+      WALK-player-sheet_6: 9153591813633765218
+      WALK-player-sheet_7: -4924984456055902614
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance {get; private set;}
+    public static AudioManager Instance { get; private set; }
 
     [Header("Audio Sources")]
     public AudioSource musicSource;
@@ -47,10 +47,27 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic(AudioClip clip)
     {
-        if(clip != null && musicSource != null)
+        if (clip != null && musicSource != null)
         {
             musicSource.clip = clip;
             musicSource.loop = true;
+            musicSource.Play();
+        }
+    }
+
+    public void StopMusic()
+    {
+        if (musicSource != null && musicSource.clip != null)
+        {
+            musicSource.Stop();
+        }
+    }
+
+    public void RestartMusic()
+    {
+        if (musicSource != null && musicSource.clip != null)
+        {
+            musicSource.Stop();
             musicSource.Play();
         }
     }

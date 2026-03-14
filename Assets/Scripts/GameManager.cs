@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        collectibleText.text = $"Collectibles: {collectibleCount}";
+        collectibleText.text = $"{collectibleCount}";
     }
 
     public void AddCollectible()
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     {
         if (collectibleText != null)
         {
-            collectibleText.text = $"Collectibles: {collectibleCount}";
+            collectibleText.text = $"{collectibleCount}";
         }
     }
 }

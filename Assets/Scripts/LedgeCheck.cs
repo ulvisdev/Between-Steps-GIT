@@ -4,7 +4,7 @@ public class LedgeCheck : MonoBehaviour
 {
     public Transform leftcheck;
     public Transform rightcheck;
-    public LayerMask groundLayer;
+    [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private PlayerController playerController;
 

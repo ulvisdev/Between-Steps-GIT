@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class MenuManager : MonoBehaviour
 {
@@ -8,10 +10,28 @@ public class MenuManager : MonoBehaviour
     public CanvasGroup mainMenu;
     public CanvasGroup optionsMenu;
     //private bool isInTransition;
+    public Button playButton;
+    public Selectable firstOptionsSelectable;
 
+    void Start()
+    {
+        EventSystem.current.SetSelectedGameObject(playButton.gameObject);
+    }
     public void PlayGame()
     {
+
+        if (MenuAudioManager.Instance != null)
+        {
+            MenuAudioManager.Instance.StopMusic();
+        }
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.RestartMusic();
+        }
+        
         SceneManager.LoadScene(1);
+
     }
 
     public void ShowOptionsMenu()
@@ -25,7 +45,7 @@ public class MenuManager : MonoBehaviour
             mainMenu.gameObject.SetActive(false);
             optionsMenu.gameObject.SetActive(true);
             optionsMenu.alpha = 0f;
-            optionsMenu.DOFade(1f, 0.5f).SetDelay(0.25f);
+            optionsMenu.DOFade(1f, 0.5f).SetDelay(0.25f).OnComplete(() => { EventSystem.current.SetSelectedGameObject(firstOptionsSelectable.gameObject); });;
         });
 
         /*if (isInTransition) return;
@@ -48,7 +68,7 @@ public class MenuManager : MonoBehaviour
             optionsMenu.gameObject.SetActive(false);
             mainMenu.gameObject.SetActive(true);
             mainMenu.alpha = 0f;
-            mainMenu.DOFade(1f, 0.5f).SetDelay(0.25f);
+            mainMenu.DOFade(1f, 0.5f).SetDelay(0.25f).OnComplete(() => { EventSystem.current.SetSelectedGameObject(playButton.gameObject); });;
         });
 
         /*if (isInTransition) return;

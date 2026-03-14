@@ -1,0 +1,278 @@
+fileFormatVersion: 2
+guid: 72d8c66a23fea5a4dbbc8fec6d03de74
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5997552308672492742
+    second: controls-controller_0
+  - first:
+      213: 7154031326114056482
+    second: controls-controller_1
+  - first:
+      213: -6666826049293984182
+    second: controls-controller_2
+  - first:
+      213: -1093046654659338610
+    second: controls-controller_3
+  - first:
+      213: 3651035565766172782
+    second: controls-controller_4
+  - first:
+      213: -8208297226233803078
+    second: controls-controller_5
+  - first:
+      213: -6328462342345082459
+    second: controls-controller_6
+  - first:
+      213: -1723982718160803955
+    second: controls-controller_7
+  - first:
+      213: 949127513694517398
+    second: controls-controller_8
+  - first:
+      213: -5468104322097683821
+    second: controls-controller_9
+  - first:
+      213: -5362825160205042965
+    second: controls-controller_10
+  - first:
+      213: -7837032528615503385
+    second: controls-controller_11
+  - first:
+      213: 3697186952908007850
+    second: controls-controller_12
+  - first:
+      213: 2250733867166773188
+    second: controls-controller_13
+  - first:
+      213: 7711391783904589177
+    second: controls-controller_14
+  - first:
+      213: 8292837082533004023
+    second: controls-controller_15
+  - first:
+      213: -1120364800539899375
+    second: controls-controller_16
+  - first:
+      213: -4137434600675264728
+    second: controls-controller_17
+  - first:
+      213: 7940258371581509176
+    second: controls-controller_18
+  - first:
+      213: -2025807535962600033
+    second: controls-controller_19
+  - first:
+      213: 6515726929138836704
+    second: controls-controller_20
+  - first:
+      213: 6716363197943084706
+    second: controls-controller_21
+  - first:
+      213: 2533561792604309541
+    second: controls-controller_22
+  - first:
+      213: 145116806988217993
+    second: controls-controller_23
+  - first:
+      213: 3330439242657426363
+    second: controls-controller_24
+  - first:
+      213: 8831315460077411656
+    second: controls-controller_25
+  - first:
+      213: -2978115723245509581
+    second: controls-controller_26
+  - first:
+      213: -2790199456612795277
+    second: controls-controller_27
+  - first:
+      213: -8547659334861593355
+    second: controls-controller_28
+  - first:
+      213: -8795852822724593097
+    second: controls-controller_29
+  - first:
+      213: 8348817228467057160
+    second: controls-controller_30
+  - first:
+      213: -130470475337775484
+    second: controls-controller_31
+  - first:
+      213: 5312648769468984542
+    second: controls-controller_32
+  - first:
+      213: 6473563091405677440
+    second: controls-controller_33
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: controls-controller_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 595
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3b80cf93f964cca0800000000000000
+      internalID: -5997552308672492742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: controls-controller_1
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 0
+        width: 595
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2298b016699384360800000000000000
+      internalID: 7154031326114056482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 1ef317ae13d4fcd4a838704d0ae7714d
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      controls-controller_0: -5997552308672492742
+      controls-controller_1: 7154031326114056482
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
