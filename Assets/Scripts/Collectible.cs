@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
-    [SerializeField] private float rotationSpeed = 90f; // degrees per second
+    //[SerializeField] private float rotationSpeed = 90f; // degrees per second
     private Animator anim;
     private bool isCollected;
 

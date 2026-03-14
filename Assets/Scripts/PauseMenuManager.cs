@@ -50,7 +50,10 @@ public class PauseMenuManager : MonoBehaviour
         SceneManager.LoadScene(0);
         AudioListener.pause = false;
         AudioManager.Instance.StopMusic();
-        MenuAudioManager.Instance.RestartMusic();
+        if (MenuAudioManager.Instance != null)
+        {
+            MenuAudioManager.Instance.RestartMusic();
+        }
 
     }
 
