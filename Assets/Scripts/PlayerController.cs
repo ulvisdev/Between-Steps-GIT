@@ -88,12 +88,16 @@ public class PlayerController : MonoBehaviour
 
     //dash controller input fix var
     float dashTrigger;
+    //float dashTrigger2;
     bool dashPressed;
     bool triggerWasPressedLastFrame;
 
     //camera follow
     //private CameraFollowObject cameraFollowObject;
     [SerializeField] private GameObject cameraFollowGO;
+
+    //Controller
+    private Gamepad activeGamepad;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -139,7 +143,8 @@ public class PlayerController : MonoBehaviour
         if (Mathf.Abs(dpadY) > 0.1f) YInput = dpadY;
 
         dashTrigger = Input.GetAxisRaw("DashTrigger");
-        bool triggerPressedNow = dashTrigger > 0.2f;
+        //dashTrigger2 = Input.GetAxisRaw("DashTrigger2");
+        bool triggerPressedNow = dashTrigger > 0.2f /*|| dashTrigger2 > 0.2*/;
         dashPressed = triggerPressedNow && !triggerWasPressedLastFrame;
         triggerWasPressedLastFrame = triggerPressedNow;
 
@@ -149,29 +154,52 @@ public class PlayerController : MonoBehaviour
 
         //if (!PauseMenuManager.isPaused)
         //{
-            if (dashInput && canDash)
+        if (dashInput && canDash)
+        {
+            isDashing = true;
+            canDash = false;
+            tr.emitting = true;
+            dashingDir = new Vector2(XInput, YInput);
+
+            //fix for dpad bug with dash
+            if (Mathf.Abs(dpadX) > 0.1f)
             {
-                isDashing = true;
-                canDash = false;
-                tr.emitting = true;
-                dashingDir = new Vector2(XInput, YInput);
-
-                if (AudioManager.Instance != null && AudioManager.Instance.dashSFX != null)
-                {
-                    AudioManager.Instance.PlaySFX(AudioManager.Instance.dashSFX);
-                }
-
-                smokeFX.Play();
-                tilemapswitch.TilemapSwitcheroo(); //TILEMAP SWITCHEROOOO
-                CameraShakeManager.Instance.Shake(1.2f, 0.1f); //CAMERA SHAKEEE
-
-                if (dashingDir == Vector2.zero)
-                {
-                    float facing = isFacingRight ? 1f : -1f;
-                    dashingDir = new Vector2(facing, 0f);
-                }
-                StartCoroutine(StopDashing());
+                dashingDir = new Vector2(dpadX, 0f);
             }
+            else if (Mathf.Abs(dpadY) > 0.1f)
+            {
+                dashingDir = new Vector2(0f, dpadY);
+            }
+            else
+            {
+                dashingDir = new Vector2(XInput, YInput);
+            }
+
+            //controller rumble
+            activeGamepad = Gamepad.current;
+
+            if (activeGamepad != null)
+            {
+                activeGamepad.SetMotorSpeeds(0.25f, 0.65f);
+            }
+
+            //sound effect
+            if (AudioManager.Instance != null && AudioManager.Instance.dashSFX != null)
+            {
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.dashSFX);
+            }
+
+            smokeFX.Play();
+            tilemapswitch.TilemapSwitcheroo(); //TILEMAP SWITCHEROOOO
+            CameraShakeManager.Instance.Shake(1.5f, 0.15f); //CAMERA SHAKEEE
+
+            if (dashingDir == Vector2.zero)
+            {
+                float facing = isFacingRight ? 1f : -1f;
+                dashingDir = new Vector2(facing, 0f);
+            }
+            StartCoroutine(StopDashing());
+        }
         //}
 
         //bool for animating with dash
@@ -211,12 +239,12 @@ public class PlayerController : MonoBehaviour
 
         //if (!PauseMenuManager.isPaused)
         //{
-            targetSpeed = XInput * maxRunSpeed;
+        targetSpeed = XInput * maxRunSpeed;
 
-            if (Mathf.Abs(targetSpeed) > 0.01f)
-                accelRate = runAcceleration;
-            else
-                accelRate = runDeceleration;
+        if (Mathf.Abs(targetSpeed) > 0.01f)
+            accelRate = runAcceleration;
+        else
+            accelRate = runDeceleration;
         //}
 
         // COYOTE ---------------------------------------------------------------
@@ -231,38 +259,38 @@ public class PlayerController : MonoBehaviour
         // JUMP BUFFER ----------------------------------------------------------
         //if (!PauseMenuManager.isPaused)
         //{
-            if (Input.GetButtonDown("Jump") /*|| Input.GetKeyDown(KeyCode.W)*/)
+        if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.JoystickButton0))
+        {
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+
+        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+
+            if (AudioManager.Instance != null && AudioManager.Instance.jumpSFX != null)
             {
-                jumpBufferCounter = jumpBufferTime;
-            }
-            else
-            {
-                jumpBufferCounter -= Time.deltaTime;
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.jumpSFX);
             }
 
-            if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
-            {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-
-                if (AudioManager.Instance != null && AudioManager.Instance.jumpSFX != null)
-                {
-                    AudioManager.Instance.PlaySFX(AudioManager.Instance.jumpSFX);
-                }
-
-                jumpBufferCounter = 0f;
-            }
+            jumpBufferCounter = 0f;
+        }
         //}
 
         // HIGHER JUMP ON HOLD ------------------------------------------------------
 
         //if (!PauseMenuManager.isPaused)
         //{
-            if (Input.GetButtonUp("Jump") && rb.linearVelocity.y > 0f)
-            {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.4f); //change this 0.0f to lower the smallest jump possible
+        if (Input.GetButtonUp("Jump") && rb.linearVelocity.y > 0f)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.4f); //change this 0.0f to lower the smallest jump possible
 
-                coyoteTimeCounter = 0f;
-            }
+            coyoteTimeCounter = 0f;
+        }
         //}
 
         // OLD SPRITE FLIP ----------------------------------------------------------
@@ -469,10 +497,25 @@ public class PlayerController : MonoBehaviour
         tr.emitting = false;
         isDashing = false;
 
+        StopRumble();
+
         //stops dash momentum
         if (rb.linearVelocity.y > 0f)
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, defaultGravityScale * 1.5f);
 
+    }
+
+    private void StopRumble()
+    {
+        if (activeGamepad != null)
+        {
+            activeGamepad.SetMotorSpeeds(0f, 0f);
+            activeGamepad = null;
+        }
+    }
+    private void OnDisable()
+    {
+        StopRumble();
     }
 
 
