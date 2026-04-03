@@ -9,29 +9,102 @@ public class MenuManager : MonoBehaviour
 
     public CanvasGroup mainMenu;
     public CanvasGroup optionsMenu;
+    public CanvasGroup levelMenu;
     //private bool isInTransition;
-    public Button playButton;
+    public Button loadgameButton;
+    public Button continueButton;
     public Selectable firstOptionsSelectable;
+    public LevelButton[] levelButtons;
 
     void Start()
     {
-        EventSystem.current.SetSelectedGameObject(playButton.gameObject);
+
+        if (ScreenFader.Instance != null)
+        {
+            ScreenFader.Instance.canvasGroup.alpha = 0f;
+            ScreenFader.Instance.canvasGroup.blocksRaycasts = false;
+        }
+
+        UpdateLoadGameButton();
+        UpdateContinueButton();
+        EventSystem.current.SetSelectedGameObject(loadgameButton.gameObject);
     }
-    public void PlayGame()
+
+    public void NewGame(string firstSceneName)
     {
+        SaveSystem.ResetGameProgress();
+        PlayerPrefs.DeleteKey(SaveSystem.GetLastSceneKey());
 
         if (MenuAudioManager.Instance != null)
-        {
             MenuAudioManager.Instance.StopMusic();
-        }
 
         if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.RestartMusic();
-        }
-        
-        SceneManager.LoadScene(1);
+            AudioManager.Instance.PlayMusic(AudioManager.Instance.backgroundMusic);
 
+        if (SceneLoader.Instance != null)
+            SceneLoader.Instance.LoadScene(firstSceneName);
+    }
+
+    public void ContinueGame()
+    {
+        string lastScene = PlayerPrefs.GetString(SaveSystem.GetLastSceneKey(), "");
+
+        if (string.IsNullOrEmpty(lastScene))
+        {
+            Debug.Log("No continue data found.");
+            return;
+        }
+
+        if (MenuAudioManager.Instance != null)
+            MenuAudioManager.Instance.StopMusic();
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayMusic(AudioManager.Instance.backgroundMusic);
+
+        if (SceneLoader.Instance != null)
+            SceneLoader.Instance.LoadScene(lastScene);
+    }
+
+    public void LoadLevelFresh(string sceneName)
+    {
+        SaveSystem.ResetLevelRunProgress(sceneName);
+
+        if (MenuAudioManager.Instance != null)
+            MenuAudioManager.Instance.StopMusic();
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayMusic(AudioManager.Instance.backgroundMusic);
+
+        if (SceneLoader.Instance != null)
+            SceneLoader.Instance.LoadScene(sceneName);
+    }
+
+    public void UpdateContinueButton()
+    {
+        if (continueButton == null)
+            return;
+
+        string lastScene = PlayerPrefs.GetString(SaveSystem.GetLastSceneKey(), "");
+        continueButton.interactable = !string.IsNullOrEmpty(lastScene);
+    }
+
+    public void ShowLevelMenu()
+    {
+
+        RefreshLevelButtons();
+
+        mainMenu.DOFade(0f, 0.5f).OnComplete(() =>
+        {
+            mainMenu.gameObject.SetActive(false);
+            levelMenu.gameObject.SetActive(true);
+            levelMenu.alpha = 0f;
+
+            levelMenu.DOFade(1f, 0.5f).SetDelay(0.25f)
+                .OnComplete(() =>
+                {
+                    EventSystem.current.SetSelectedGameObject(firstOptionsSelectable.gameObject);
+                });
+        });
     }
 
     public void ShowOptionsMenu()
@@ -40,12 +113,12 @@ public class MenuManager : MonoBehaviour
         //mainMenu.DOFade(0f, 0.6f).OnComplete(() => { mainMenu.gameObject.SetActive(false); });
         //optionsMenu.DOFade(1f, 0.6f).OnComplete(() => { optionsMenu.gameObject.SetActive(true); });
 
-        mainMenu.DOFade(0f, 0.5f).OnComplete(() => 
+        mainMenu.DOFade(0f, 0.5f).OnComplete(() =>
         {
             mainMenu.gameObject.SetActive(false);
             optionsMenu.gameObject.SetActive(true);
             optionsMenu.alpha = 0f;
-            optionsMenu.DOFade(1f, 0.5f).SetDelay(0.25f).OnComplete(() => { EventSystem.current.SetSelectedGameObject(firstOptionsSelectable.gameObject); });;
+            optionsMenu.DOFade(1f, 0.5f).SetDelay(0.25f).OnComplete(() => { EventSystem.current.SetSelectedGameObject(firstOptionsSelectable.gameObject); });
         });
 
         /*if (isInTransition) return;
@@ -57,7 +130,7 @@ public class MenuManager : MonoBehaviour
                                                         isInTransition = false; });*/
     }
 
-    public void ShowMainMenu()
+    public void ShowMainMenuFromOptions()
     {
 
         //optionsMenu.DOFade(0f, 0.6f).OnComplete(() => { optionsMenu.gameObject.SetActive(false); });
@@ -68,7 +141,7 @@ public class MenuManager : MonoBehaviour
             optionsMenu.gameObject.SetActive(false);
             mainMenu.gameObject.SetActive(true);
             mainMenu.alpha = 0f;
-            mainMenu.DOFade(1f, 0.5f).SetDelay(0.25f).OnComplete(() => { EventSystem.current.SetSelectedGameObject(playButton.gameObject); });;
+            mainMenu.DOFade(1f, 0.5f).SetDelay(0.25f).OnComplete(() => { EventSystem.current.SetSelectedGameObject(loadgameButton.gameObject); });
         });
 
         /*if (isInTransition) return;
@@ -80,12 +153,47 @@ public class MenuManager : MonoBehaviour
                                                         isInTransition = false; });*/
     }
 
+    public void ShowMainMenuFromLevel()
+    {
+        levelMenu.DOFade(0f, 0.5f).OnComplete(() =>
+        {
+            levelMenu.gameObject.SetActive(false);
+            mainMenu.gameObject.SetActive(true);
+            mainMenu.alpha = 0f;
+            mainMenu.DOFade(1f, 0.5f).SetDelay(0.25f).OnComplete(() => { EventSystem.current.SetSelectedGameObject(loadgameButton.gameObject); });
+        });
+    }
+
+    void RefreshLevelButtons()
+    {
+        int highestUnlocked = PlayerPrefs.GetInt("HighestLevel", 1);
+
+        foreach (LevelButton levelButton in levelButtons)
+        {
+            if (levelButton != null)
+                levelButton.Setup(highestUnlocked);
+        }
+    }
+
+    public void HardReset()
+    {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
+    }
+
+    public void UpdateLoadGameButton()
+    {
+        int highestLevel = PlayerPrefs.GetInt("HighestLevel", 1);
+
+        loadgameButton.interactable = highestLevel >= 2;
+    }
+
     public void QuitGame()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#else
         Application.Quit();
-        #endif
+#endif
     }
 }

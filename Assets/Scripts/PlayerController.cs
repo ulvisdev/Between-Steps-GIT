@@ -8,105 +8,93 @@ using UnityEngine.InputSystem;
 
 Can check jump animation also with y velocity, but need 2 animations - jump up and fall down.
 
-MAYBE Need to add more Colliders if / else if / else if (closer to player center overrides to snap bigger distance)
 */
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 6f;
-    public float jumpForce = 6f;
 
+    // =========================
+    // Serialized Settings
+    // =========================
+
+    [Header("Movement")]
+    //[SerializeField] private float speed = 6f;
+    [SerializeField] private float jumpForce = 6f;
     [SerializeField] private float maxRunSpeed = 6f;
     [SerializeField] private float runAcceleration = 20f;
     [SerializeField] private float runDeceleration = 15f;
+    [SerializeField] private bool _active = true;
 
-    private float targetSpeed;
-    private float accelRate;
-    //private bool isGroundedEDGE;
+    [Header("Ground Check")]
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundCheckDistance = 0.12f;
+    [SerializeField] private Vector2 groundCheckOffset = new Vector2(0f, -0.5f);
+    [SerializeField] private Transform groundCheckLEFT;
+    [SerializeField] private Transform groundCheckRIGHT;
+    [SerializeField] private LayerMask groundLayer;
 
-    public Transform groundCheck;
-    public float groundCheckDistance = .12f;
-    public Vector2 groundCheckOffset = new Vector2(0f, -.5f);
-
-    public Transform groundCheckLEFT;
-    public Transform groundCheckRIGHT;
-    public LayerMask groundLayer;
-
-    private Rigidbody2D rb;
-    private float XInput;
-    private float YInput;
-    private bool isGrounded;
-
-    //this is only for old flip
-    //private SpriteRenderer spriteRenderer;
-
-    //new flip
-    public bool isFacingRight = true;
-
-    private Animator anim;
-
+    [Header("Jump Assist")]
     [SerializeField] private float coyoteTime = 0.2f;
-    private float coyoteTimeCounter;
     [SerializeField] private float jumpBufferTime = 0.2f;
-    private float jumpBufferCounter;
 
-    //dash
+    [Header("Dash")]
     [SerializeField] private float dashingVelocity = 14f;
     [SerializeField] private float dashingTime = 0.5f;
-    private Vector2 dashingDir;
-    public bool isDashing; //important to be public for TilemapSwitcheroo to work
-    private bool canDash = true;
 
-    public TrailRenderer tr;
-    private float defaultGravityScale;
+    [Header("Gravity / Falling")]
     [SerializeField] private float maxFallSpeed = 20f;
     [SerializeField] private float jumpHangTimeThreshold = 0.2f;
     [SerializeField] private float jumpHangGravityMult = 0.5f;
     [SerializeField] private float jumpHangMaxSpeedMult = 0.8f;
     [SerializeField] private float jumpHangAccelMult = 0.8f;
 
-    //private bool isWallJumping = false;
-    private bool isJumpFalling = false;
+    [Header("Effects / References")]
+    [SerializeField] private TilemapSwitch tilemapswitch;
+    [SerializeField] private ParticleSystem smokeFX;
 
-    //wall jumping
-    /*    private bool isWallJumping;
-        private float wallJumpingDir;
-        [SerializeField] private float wallJumpingTime = 0.2f;
-        private float wallJumpingCounter;
-        [SerializeField] private float wallJumpingDuration = 0.4f;
-        [SerializeField] private Vector2 wallJumpingPower = new Vector2(8f, 16f);
+    [Header("Respawn System")]
+    public Transform currentCheckpoint;
 
-        //wall sliding
-        private bool isWallSliding;
-        [SerializeField] private float wallSlidingSpeed = 8f;
-        [SerializeField] private Transform RightWallCheck;
-        [SerializeField] private LayerMask wallLayer; */
+    // =========================
+    // Runtime State
+    // =========================
 
-    public TilemapSwitch tilemapswitch;
+    private float targetSpeed;
+    private float accelRate;
+    private float XInput;
+    private float YInput;
+    private float dashTrigger;
 
-    public ParticleSystem smokeFX;
+    private float coyoteTimeCounter;
+    private float jumpBufferCounter;
+    private float defaultGravityScale;
 
-    //dash controller input fix var
-    float dashTrigger;
-    //float dashTrigger2;
-    bool dashPressed;
-    bool triggerWasPressedLastFrame;
+    private bool isGrounded;
+    private bool isFacingRight = true;
+    public bool isDashing;
+    private bool canDash = true;
+    private bool dashPressed;
+    private bool triggerWasPressedLastFrame;
 
-    //camera follow
-    //private CameraFollowObject cameraFollowObject;
-    [SerializeField] private GameObject cameraFollowGO;
+    public bool isDead = false;
 
-    //Controller
+    private Vector2 dashingDir;
+
+    // =========================
+    // Cached Components
+    // =========================
+
+    private Rigidbody2D rb;
+    private Animator anim;
     private Gamepad activeGamepad;
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        //spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-        tr = GetComponent<TrailRenderer>();
+        //spriteRenderer = GetComponent<SpriteRenderer>();
+        //tr = GetComponent<TrailRenderer>();
 
         defaultGravityScale = rb.gravityScale;
 
@@ -114,12 +102,16 @@ public class PlayerController : MonoBehaviour
         rotator.y = isFacingRight ? 0f : -180f;
         transform.eulerAngles = rotator;
 
-        //cameraFollowObject = cameraFollowGO.GetComponent<CameraFollowObject>();
     }
 
-    // Update is called once per frame
     void Update()
     {
+
+        if (isDead)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
 
         XInput = Input.GetAxisRaw("Horizontal");
         YInput = Input.GetAxisRaw("Vertical");
@@ -150,16 +142,20 @@ public class PlayerController : MonoBehaviour
 
         dashInput = dashInput || dashPressed;
 
+        // PLAYER ACTIVE CHECK --------------------------------------------------
+        if (!_active) return;
+
         // DASH -----------------------------------------------------------------
 
-        //if (!PauseMenuManager.isPaused)
-        //{
         if (dashInput && canDash)
         {
             isDashing = true;
             canDash = false;
-            tr.emitting = true;
+            //tr.emitting = true;
             dashingDir = new Vector2(XInput, YInput);
+
+            //new addition - makes gravity be 0 for the duration of dash
+            rb.gravityScale = isDashing ? 0f : defaultGravityScale;
 
             //fix for dpad bug with dash
             if (Mathf.Abs(dpadX) > 0.1f)
@@ -200,7 +196,6 @@ public class PlayerController : MonoBehaviour
             }
             StartCoroutine(StopDashing());
         }
-        //}
 
         //bool for animating with dash
         anim.SetBool("IsDashing", isDashing);
@@ -237,15 +232,12 @@ public class PlayerController : MonoBehaviour
 
         // ACCELERATION ---------------------------------------------------------
 
-        //if (!PauseMenuManager.isPaused)
-        //{
         targetSpeed = XInput * maxRunSpeed;
 
         if (Mathf.Abs(targetSpeed) > 0.01f)
             accelRate = runAcceleration;
         else
             accelRate = runDeceleration;
-        //}
 
         // COYOTE ---------------------------------------------------------------
 
@@ -257,8 +249,7 @@ public class PlayerController : MonoBehaviour
         else coyoteTimeCounter -= Time.deltaTime;
 
         // JUMP BUFFER ----------------------------------------------------------
-        //if (!PauseMenuManager.isPaused)
-        //{
+
         if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.JoystickButton0))
         {
             jumpBufferCounter = jumpBufferTime;
@@ -278,20 +269,18 @@ public class PlayerController : MonoBehaviour
             }
 
             jumpBufferCounter = 0f;
+            coyoteTimeCounter = 0f;
+            isGrounded = false;
         }
-        //}
 
         // HIGHER JUMP ON HOLD ------------------------------------------------------
 
-        //if (!PauseMenuManager.isPaused)
-        //{
         if (Input.GetButtonUp("Jump") && rb.linearVelocity.y > 0f)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.4f); //change this 0.0f to lower the smallest jump possible
 
             coyoteTimeCounter = 0f;
         }
-        //}
 
         // OLD SPRITE FLIP ----------------------------------------------------------
 
@@ -323,16 +312,13 @@ public class PlayerController : MonoBehaviour
         {
             desiredGravity = defaultGravityScale * 1.5f;
             //rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocity.y, -maxFallSpeed));
-            isJumpFalling = true;
         }
-        else
-            isJumpFalling = false;
+
+        // HOLD MID-AIR ----------------------------------------------------------
 
         bool inAir = !isGrounded /*&& !isGroundedEDGE*/;
         bool nearY0 = Mathf.Abs(rb.linearVelocity.y) < jumpHangTimeThreshold;
         bool inJumping = inAir && nearY0;
-
-        // HOLD MID-AIR ----------------------------------------------------------
 
         if (inJumping)
         {
@@ -343,8 +329,6 @@ public class PlayerController : MonoBehaviour
 
         rb.gravityScale = desiredGravity;
 
-        //WallSlide();
-        //WallJump();
     }
 
     public void PlayRunSFX()
@@ -379,18 +363,12 @@ public class PlayerController : MonoBehaviour
             Vector3 rotator = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
             transform.rotation = Quaternion.Euler(rotator);
             isFacingRight = !isFacingRight;
-
-            //turn the camera follow object
-            //cameraFollowObject.CallTurn();
         }
         else
         {
             Vector3 rotator = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
             transform.rotation = Quaternion.Euler(rotator);
             isFacingRight = !isFacingRight;
-
-            //turn the camera follow object
-            //cameraFollowObject.CallTurn();
         }
     }
 
@@ -409,12 +387,18 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+
+        if (isDead)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
         if (isDashing) return;
 
         float maxSpeedChange = accelRate * Time.fixedDeltaTime;
         float newX = Mathf.MoveTowards(rb.linearVelocity.x, targetSpeed, maxSpeedChange);
 
-        //if (!isWallJumping)
         rb.linearVelocity = new Vector2(newX, rb.linearVelocity.y);
 
         // CLAMP FALL SPEED ---------------------------------------------------
@@ -431,70 +415,11 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    // WALL SLIDE -------------------------------------------------------------
-    /*
-    private bool isWalled()
-    {
-        return Physics2D.OverlapCircle(RightWallCheck.position, 0.2f, wallLayer);
-    }
-
-    private bool WallSlide()
-    {
-        if (isWalled() && !isGrounded && !isGroundedEDGE && XInput != 0f)
-        {
-            isWallSliding = true;
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Clamp(rb.linearVelocity.y, -wallSlidingSpeed, float.MaxValue));
-            return true;
-        }
-        else
-        {
-            isWallSliding = false;
-            return false;
-        }
-    }
-
-// WALL JUMP -------------------------------------------------------------
-    private void WallJump()
-    {
-        if (isWallSliding)
-        {
-            isWallJumping = false;
-            wallJumpingDir = spriteRenderer.flipX ? 1f : -1f;
-            wallJumpingCounter = wallJumpingTime;
-
-            CancelInvoke(nameof(StopWallJumping));
-        }
-        else
-        {
-            wallJumpingCounter -= Time.deltaTime;
-        }
-
-        if (Input.GetButtonDown("Jump") && wallJumpingCounter > 0f) here put wallJumping counter <= 0 ??
-        {
-            isWallJumping = true;
-            rb.linearVelocity = new Vector2(wallJumpingDir * wallJumpingPower.x, wallJumpingPower.y);
-            wallJumpingCounter = 0f;
-
-            if (wallJumpingDir > 0)
-                spriteRenderer.flipX = false;
-            else
-                spriteRenderer.flipX = true;
-
-            Invoke(nameof(StopWallJumping), wallJumpingDuration);
-        }
-    }
-
-    private void StopWallJumping()
-    {
-        isWallJumping = false;
-    }
-    */
-
     // DASH ----------------------------------------------------------------
     private IEnumerator StopDashing()
     {
         yield return new WaitForSeconds(dashingTime);
-        tr.emitting = false;
+        //tr.emitting = false;
         isDashing = false;
 
         StopRumble();
@@ -513,11 +438,34 @@ public class PlayerController : MonoBehaviour
             activeGamepad = null;
         }
     }
+    
     private void OnDisable()
     {
         StopRumble();
     }
 
+    public void Die()
+    {
+        isDead = true;
+        isDashing = false;
+        canDash = false;
+        rb.linearVelocity = Vector2.zero;
+        rb.gravityScale = 0f;
+        rb.bodyType = RigidbodyType2D.Kinematic;
+    }
+
+    public void Revive()
+    {
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.gravityScale = defaultGravityScale;
+        rb.linearVelocity = Vector2.zero;
+        isDead = false;
+    }
+
+    public void SetCheckpoint(Transform newCheckpoint)
+    {
+        currentCheckpoint = newCheckpoint;
+    }
 
     // GIZMOS --------------------------------------------------------------
     void OnDrawGizmosSelected()
@@ -557,53 +505,5 @@ public class PlayerController : MonoBehaviour
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(transform.position + (Vector3)groundCheckOffset, transform.position + (Vector3)groundCheckOffset + Vector3.down * groundCheckDistance);
         }
-
-        // LEFT OUTER LEDGE CHECK
-        // if (left_outer != null)
-        // {
-        //     Gizmos.color = Color.yellow;
-        //     Gizmos.DrawLine(left_outer.position, left_outer.position + Vector3.up * groundCheckDistance);
-        // }
-        // else
-        // {
-        //     Gizmos.color = Color.yellow;
-        //     Gizmos.DrawLine(transform.position + (Vector3)groundCheckOffset, transform.position + (Vector3)groundCheckOffset + Vector3.up * groundCheckDistance);
-        // }
-
-        // // LEFT INNER LEDGE CHECK
-        // if (left_inner != null)
-        // {
-        //     Gizmos.color = Color.yellow;
-        //     Gizmos.DrawLine(left_inner.position, left_inner.position + Vector3.up * groundCheckDistance);
-        // }
-        // else
-        // {
-        //     Gizmos.color = Color.yellow;
-        //     Gizmos.DrawLine(transform.position + (Vector3)groundCheckOffset, transform.position + (Vector3)groundCheckOffset + Vector3.up * groundCheckDistance);
-        // }
-
-        // // RIGHT OUTER LEDGE CHECK
-        // if (right_outer != null)
-        // {
-        //     Gizmos.color = Color.yellow;
-        //     Gizmos.DrawLine(right_outer.position, right_outer.position + Vector3.up * groundCheckDistance);
-        // }
-        // else
-        // {
-        //     Gizmos.color = Color.yellow;
-        //     Gizmos.DrawLine(transform.position + (Vector3)groundCheckOffset, transform.position + (Vector3)groundCheckOffset + Vector3.up * groundCheckDistance);
-        // }
-
-        // // RIGHT INNER LEDGE CHECK
-        // if (right_inner != null)
-        // {
-        //     Gizmos.color = Color.yellow;
-        //     Gizmos.DrawLine(right_inner.position, right_inner.position + Vector3.up * groundCheckDistance);
-        // }
-        // else
-        // {
-        //     Gizmos.color = Color.yellow;
-        //     Gizmos.DrawLine(transform.position + (Vector3)groundCheckOffset, transform.position + (Vector3)groundCheckOffset + Vector3.up * groundCheckDistance);
-        // }
     }
 }

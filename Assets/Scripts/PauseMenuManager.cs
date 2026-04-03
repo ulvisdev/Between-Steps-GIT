@@ -33,6 +33,12 @@ public class PauseMenuManager : MonoBehaviour
         AudioListener.pause = true;
         isPaused = true;
 
+        if (ScreenFader.Instance != null)
+        {
+            ScreenFader.Instance.canvasGroup.alpha = 0f;
+            ScreenFader.Instance.canvasGroup.blocksRaycasts = false;
+        }
+
         EventSystem.current.SetSelectedGameObject(firstSelectedButton.gameObject);
     }
 
@@ -59,11 +65,11 @@ public class PauseMenuManager : MonoBehaviour
 
     public void QuitGame()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#else
         Application.Quit();
-        #endif
+#endif
     }
 
 }

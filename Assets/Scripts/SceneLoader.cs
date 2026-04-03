@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader Instance;
 
     private bool isPaused = false;
+    private bool isLoading = false;
 
     private void Awake()
     {
@@ -17,25 +19,79 @@ public class SceneLoader : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
 
-    // ---------- SCENE LOADING ----------
     public void LoadScene(string sceneName)
     {
-        Time.timeScale = 1f;   // ensure unpaused when changing scenes
-        isPaused = false;
-        SceneManager.LoadScene(sceneName);
+        if (isLoading) return;
+        StartCoroutine(LoadSceneRoutine(sceneName));
+    }
+
+    public void NextLevel()
+    {
+        if (isLoading) return;
+        StartCoroutine(NextLevelRoutine());
     }
 
     public void ReloadScene()
     {
-        Time.timeScale = 1f;
-        isPaused = false;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (isLoading) return;
+        StartCoroutine(ReloadSceneRoutine());
     }
 
-    // ---------- PAUSE ----------
+    private IEnumerator LoadSceneRoutine(string sceneName)
+    {
+        isLoading = true;
+        Time.timeScale = 1f;
+        isPaused = false;
+
+        if (ScreenFader.Instance != null)
+            yield return StartCoroutine(ScreenFader.Instance.FadeOut());
+
+        yield return SceneManager.LoadSceneAsync(sceneName);
+
+        if (ScreenFader.Instance != null)
+            yield return StartCoroutine(ScreenFader.Instance.FadeIn());
+
+        isLoading = false;
+    }
+
+    private IEnumerator NextLevelRoutine()
+    {
+        isLoading = true;
+        Time.timeScale = 1f;
+        isPaused = false;
+
+        if (ScreenFader.Instance != null)
+            yield return StartCoroutine(ScreenFader.Instance.FadeOut());
+
+        yield return SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+
+        if (ScreenFader.Instance != null)
+            yield return StartCoroutine(ScreenFader.Instance.FadeIn());
+
+        isLoading = false;
+    }
+
+    private IEnumerator ReloadSceneRoutine()
+    {
+        isLoading = true;
+        Time.timeScale = 1f;
+        isPaused = false;
+
+        if (ScreenFader.Instance != null)
+            yield return StartCoroutine(ScreenFader.Instance.FadeOut());
+
+        yield return SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+
+        if (ScreenFader.Instance != null)
+            yield return StartCoroutine(ScreenFader.Instance.FadeIn());
+
+        isLoading = false;
+    }
+
     public void TogglePause()
     {
         if (isPaused)
@@ -56,7 +112,6 @@ public class SceneLoader : MonoBehaviour
         isPaused = false;
     }
 
-    // ---------- QUIT ----------
     public void QuitGame()
     {
         Debug.Log("Quitting Game...");

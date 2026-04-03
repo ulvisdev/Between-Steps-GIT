@@ -29,12 +29,12 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        if (backgroundMusic != null && musicSource != null)
-        {
-            musicSource.clip = backgroundMusic;
-            musicSource.loop = true;
-            musicSource.Play();
-        }
+        // if (backgroundMusic != null && musicSource != null)
+        // {
+        //     musicSource.clip = backgroundMusic;
+        //     musicSource.loop = true;
+        //     musicSource.Play();
+        // }
     }
 
     public void PlaySFX(AudioClip clip)
