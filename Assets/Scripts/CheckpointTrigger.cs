@@ -6,7 +6,7 @@ public class CheckpointTrigger : MonoBehaviour
     [SerializeField] private Transform checkpointTransform;
     [SerializeField] private string checkpointID; // <-- NEW
 
-    private bool activated;
+    //private bool activated;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -19,7 +19,7 @@ public class CheckpointTrigger : MonoBehaviour
         Transform pointToUse = checkpointTransform != null ? checkpointTransform : transform;
         player.SetCheckpoint(pointToUse);
 
-        // 🔥 SAVE CHECKPOINT
+        // SAVE CHECKPOINT
         string sceneName = SceneManager.GetActiveScene().name;
 
         PlayerPrefs.SetString(SaveSystem.GetLastSceneKey(), sceneName);
@@ -28,6 +28,6 @@ public class CheckpointTrigger : MonoBehaviour
 
         Debug.Log($"Checkpoint saved: {sceneName} - {checkpointID}");
 
-        activated = true;
+        //activated = true;
     }
 }

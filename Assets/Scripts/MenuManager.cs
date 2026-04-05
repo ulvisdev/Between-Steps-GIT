@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using DG.Tweening;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class MenuManager : MonoBehaviour
 {
@@ -13,33 +14,36 @@ public class MenuManager : MonoBehaviour
     //private bool isInTransition;
     public Button loadgameButton;
     public Button continueButton;
-    public Selectable firstOptionsSelectable;
+    public MenuInputHandler mainMenuInputHandler;
+    public MenuInputHandler optionsMenuInputHandler;
+    public MenuInputHandler levelMenuInputHandler;
     public LevelButton[] levelButtons;
 
     void Start()
     {
 
+        if (MenuAudioManager.Instance != null && MenuAudioManager.Instance.backgroundMusic != null)
+        {
+            MenuAudioManager.Instance.PlayMusic(MenuAudioManager.Instance.backgroundMusic);
+        }
+
         if (ScreenFader.Instance != null)
         {
-            ScreenFader.Instance.canvasGroup.alpha = 0f;
+            //ScreenFader.Instance.canvasGroup.alpha = 0f;
             ScreenFader.Instance.canvasGroup.blocksRaycasts = false;
         }
 
         UpdateLoadGameButton();
         UpdateContinueButton();
-        EventSystem.current.SetSelectedGameObject(loadgameButton.gameObject);
+
+        if (mainMenuInputHandler != null)
+            mainMenuInputHandler.ClearSelection();
     }
 
     public void NewGame(string firstSceneName)
     {
         SaveSystem.ResetGameProgress();
         PlayerPrefs.DeleteKey(SaveSystem.GetLastSceneKey());
-
-        if (MenuAudioManager.Instance != null)
-            MenuAudioManager.Instance.StopMusic();
-
-        if (AudioManager.Instance != null)
-            AudioManager.Instance.PlayMusic(AudioManager.Instance.backgroundMusic);
 
         if (SceneLoader.Instance != null)
             SceneLoader.Instance.LoadScene(firstSceneName);
@@ -55,12 +59,6 @@ public class MenuManager : MonoBehaviour
             return;
         }
 
-        if (MenuAudioManager.Instance != null)
-            MenuAudioManager.Instance.StopMusic();
-
-        if (AudioManager.Instance != null)
-            AudioManager.Instance.PlayMusic(AudioManager.Instance.backgroundMusic);
-
         if (SceneLoader.Instance != null)
             SceneLoader.Instance.LoadScene(lastScene);
     }
@@ -68,12 +66,6 @@ public class MenuManager : MonoBehaviour
     public void LoadLevelFresh(string sceneName)
     {
         SaveSystem.ResetLevelRunProgress(sceneName);
-
-        if (MenuAudioManager.Instance != null)
-            MenuAudioManager.Instance.StopMusic();
-
-        if (AudioManager.Instance != null)
-            AudioManager.Instance.PlayMusic(AudioManager.Instance.backgroundMusic);
 
         if (SceneLoader.Instance != null)
             SceneLoader.Instance.LoadScene(sceneName);
@@ -99,11 +91,7 @@ public class MenuManager : MonoBehaviour
             levelMenu.gameObject.SetActive(true);
             levelMenu.alpha = 0f;
 
-            levelMenu.DOFade(1f, 0.5f).SetDelay(0.25f)
-                .OnComplete(() =>
-                {
-                    EventSystem.current.SetSelectedGameObject(firstOptionsSelectable.gameObject);
-                });
+            levelMenu.DOFade(1f, 0.5f).SetDelay(0.25f).OnComplete(() => { levelMenuInputHandler.ClearSelection(); });
         });
     }
 
@@ -118,7 +106,7 @@ public class MenuManager : MonoBehaviour
             mainMenu.gameObject.SetActive(false);
             optionsMenu.gameObject.SetActive(true);
             optionsMenu.alpha = 0f;
-            optionsMenu.DOFade(1f, 0.5f).SetDelay(0.25f).OnComplete(() => { EventSystem.current.SetSelectedGameObject(firstOptionsSelectable.gameObject); });
+            optionsMenu.DOFade(1f, 0.5f).SetDelay(0.25f).OnComplete(() => { optionsMenuInputHandler.ClearSelection(); });
         });
 
         /*if (isInTransition) return;
@@ -141,7 +129,7 @@ public class MenuManager : MonoBehaviour
             optionsMenu.gameObject.SetActive(false);
             mainMenu.gameObject.SetActive(true);
             mainMenu.alpha = 0f;
-            mainMenu.DOFade(1f, 0.5f).SetDelay(0.25f).OnComplete(() => { EventSystem.current.SetSelectedGameObject(loadgameButton.gameObject); });
+            mainMenu.DOFade(1f, 0.5f).SetDelay(0.25f).OnComplete(() => { mainMenuInputHandler.ClearSelection(); });
         });
 
         /*if (isInTransition) return;
@@ -160,7 +148,7 @@ public class MenuManager : MonoBehaviour
             levelMenu.gameObject.SetActive(false);
             mainMenu.gameObject.SetActive(true);
             mainMenu.alpha = 0f;
-            mainMenu.DOFade(1f, 0.5f).SetDelay(0.25f).OnComplete(() => { EventSystem.current.SetSelectedGameObject(loadgameButton.gameObject); });
+            mainMenu.DOFade(1f, 0.5f).SetDelay(0.25f).OnComplete(() => { mainMenuInputHandler.ClearSelection(); });
         });
     }
 

@@ -80,6 +80,10 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 dashingDir;
 
+    private bool blockGameplayInput;
+    private bool requireJumpReleaseAfterPause;
+    private bool requireDashReleaseAfterPause;
+
     // =========================
     // Cached Components
     // =========================
@@ -113,6 +117,16 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        if (PauseMenuManager.isPaused || blockGameplayInput)
+        {
+            XInput = 0f;
+            YInput = 0f;
+            targetSpeed = 0f;
+            jumpBufferCounter = 0f;
+            dashPressed = false;
+            return;
+        }
+
         XInput = Input.GetAxisRaw("Horizontal");
         YInput = Input.GetAxisRaw("Vertical");
         var dashInput = Input.GetButtonDown("Dash") /*|| Input.GetKeyDown(KeyCode.Keypad4)*/;
@@ -141,6 +155,17 @@ public class PlayerController : MonoBehaviour
         triggerWasPressedLastFrame = triggerPressedNow;
 
         dashInput = dashInput || dashPressed;
+
+        // block dash input during pause
+        bool dashHeld = Input.GetButton("Dash") || triggerPressedNow;
+
+        if (requireDashReleaseAfterPause)
+        {
+            if (!dashHeld)
+                requireDashReleaseAfterPause = false;
+
+            dashInput = false;
+        }
 
         // PLAYER ACTIVE CHECK --------------------------------------------------
         if (!_active) return;
@@ -250,13 +275,35 @@ public class PlayerController : MonoBehaviour
 
         // JUMP BUFFER ----------------------------------------------------------
 
-        if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.JoystickButton0))
+            //previous jump buffer
+        // if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.JoystickButton0))
+        // {
+        //     jumpBufferCounter = jumpBufferTime;
+        // }
+        // else
+        // {
+        //     jumpBufferCounter -= Time.deltaTime;
+        // }
+
+        bool jumpPressed = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.JoystickButton0);
+        bool jumpHeld = Input.GetButton("Jump") || Input.GetKey(KeyCode.JoystickButton0);
+
+        // block jump input during pause
+        if (requireJumpReleaseAfterPause)
         {
-            jumpBufferCounter = jumpBufferTime;
+            if (!jumpHeld)
+                requireJumpReleaseAfterPause = false;
         }
         else
         {
-            jumpBufferCounter -= Time.deltaTime;
+            if (jumpPressed)
+            {
+                jumpBufferCounter = jumpBufferTime;
+            }
+            else
+            {
+                jumpBufferCounter -= Time.deltaTime;
+            }
         }
 
         if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
@@ -394,6 +441,13 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        //block player input while paused
+        if (PauseMenuManager.isPaused || blockGameplayInput)
+        {
+            rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+            return;
+        }
+
         if (isDashing) return;
 
         float maxSpeedChange = accelRate * Time.fixedDeltaTime;
@@ -438,7 +492,7 @@ public class PlayerController : MonoBehaviour
             activeGamepad = null;
         }
     }
-    
+
     private void OnDisable()
     {
         StopRumble();
@@ -465,6 +519,35 @@ public class PlayerController : MonoBehaviour
     public void SetCheckpoint(Transform newCheckpoint)
     {
         currentCheckpoint = newCheckpoint;
+    }
+
+    public void OnGamePaused()
+    {
+        blockGameplayInput = true;
+
+        XInput = 0f;
+        YInput = 0f;
+        targetSpeed = 0f;
+
+        jumpBufferCounter = 0f;
+        dashPressed = false;
+        triggerWasPressedLastFrame = false;
+    }
+
+    public void OnGameResumed()
+    {
+        blockGameplayInput = false;
+
+        XInput = 0f;
+        YInput = 0f;
+        targetSpeed = 0f;
+
+        jumpBufferCounter = 0f;
+        dashPressed = false;
+        triggerWasPressedLastFrame = false;
+
+        requireJumpReleaseAfterPause = true;
+        requireDashReleaseAfterPause = true;
     }
 
     // GIZMOS --------------------------------------------------------------

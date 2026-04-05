@@ -433,6 +433,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 700df20e0a704eb4e91b052830462566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  punchAmount: 0.2
+  punchDuration: 0.2
+  vibrato: 8
+  elasticity: 0.8
 --- !u!1 &67713760
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,8 +596,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -656,6 +660,8 @@ GameObject:
   - component: {fileID: 125130471}
   - component: {fileID: 125130470}
   - component: {fileID: 125130469}
+  - component: {fileID: 125130473}
+  - component: {fileID: 125130472}
   m_Layer: 5
   m_Name: LoadGameButton
   m_TagString: Untagged
@@ -680,8 +686,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 170, y: -200}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 159.2, y: -230.5}
+  m_SizeDelta: {x: 150, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &125130469
 MonoBehaviour:
@@ -727,21 +733,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1088784099}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+      - m_Target: {fileID: 125130472}
+        m_TargetAssemblyTypeName: MenuButtonAction, Assembly-CSharp
         m_MethodName: ShowLevelMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 64350034}
-        m_TargetAssemblyTypeName: UIPunch, Assembly-CSharp
-        m_MethodName: Click
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -789,6 +783,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 125130467}
   m_CullTransparentMesh: 1
+--- !u!114 &125130472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125130467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d2251e832f54d48920f3c4910d5112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punch: {fileID: 125130473}
+  menuManager: {fileID: 1088784099}
+  pauseMenuManager: {fileID: 0}
+  sceneName: 
+--- !u!114 &125130473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125130467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700df20e0a704eb4e91b052830462566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punchAmount: 0.2
+  punchDuration: 0.2
+  vibrato: 8
+  elasticity: 0.8
 --- !u!1 &154335353
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,7 +983,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &235132942
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1025,18 +1051,6 @@ MonoBehaviour:
       - m_Target: {fileID: 1088784099}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: HardReset
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 64350034}
-        m_TargetAssemblyTypeName: UIPunch, Assembly-CSharp
-        m_MethodName: Click
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1698,6 +1712,8 @@ GameObject:
   - component: {fileID: 386789761}
   - component: {fileID: 386789760}
   - component: {fileID: 386789759}
+  - component: {fileID: 386789763}
+  - component: {fileID: 386789762}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -1769,21 +1785,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1088784099}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+      - m_Target: {fileID: 386789762}
+        m_TargetAssemblyTypeName: MenuButtonAction, Assembly-CSharp
         m_MethodName: ShowMainMenuFromLevel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 64350034}
-        m_TargetAssemblyTypeName: UIPunch, Assembly-CSharp
-        m_MethodName: Click
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1831,6 +1835,86 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 386789757}
   m_CullTransparentMesh: 1
+--- !u!114 &386789762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386789757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d2251e832f54d48920f3c4910d5112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punch: {fileID: 386789763}
+  menuManager: {fileID: 1088784099}
+  pauseMenuManager: {fileID: 0}
+  sceneName: 
+--- !u!114 &386789763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386789757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700df20e0a704eb4e91b052830462566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punchAmount: 0.2
+  punchDuration: 0.2
+  vibrato: 8
+  elasticity: 0.8
+--- !u!1 &392138908
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 392138910}
+  - component: {fileID: 392138909}
+  m_Layer: 0
+  m_Name: MenuButtons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &392138909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392138908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d2251e832f54d48920f3c4910d5112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punch: {fileID: 0}
+  menuManager: {fileID: 1088784099}
+  pauseMenuManager: {fileID: 0}
+  sceneName: MainMenu
+--- !u!4 &392138910
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392138908}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5141756, y: 3.5061712, z: -0.5439892}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &438180462
 GameObject:
   m_ObjectHideFlags: 0
@@ -1888,6 +1972,8 @@ GameObject:
   - component: {fileID: 467892240}
   - component: {fileID: 467892239}
   - component: {fileID: 467892242}
+  - component: {fileID: 467892244}
+  - component: {fileID: 467892243}
   m_Layer: 5
   m_Name: Level1Button
   m_TagString: Untagged
@@ -1959,16 +2045,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1088784099}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+      - m_Target: {fileID: 467892243}
+        m_TargetAssemblyTypeName: MenuButtonAction, Assembly-CSharp
         m_MethodName: LoadLevelFresh
-        m_Mode: 5
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: TutorialLevel
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &467892240
@@ -2024,6 +2110,38 @@ MonoBehaviour:
   levelIndex: 1
   button: {fileID: 467892239}
   lockIcon: {fileID: -2253911629886400664, guid: 8d3c885d341e3f244b1cc4b196770266, type: 3}
+--- !u!114 &467892243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467892237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d2251e832f54d48920f3c4910d5112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punch: {fileID: 467892244}
+  menuManager: {fileID: 1088784099}
+  pauseMenuManager: {fileID: 0}
+  sceneName: TutorialLevel
+--- !u!114 &467892244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467892237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700df20e0a704eb4e91b052830462566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punchAmount: 0.2
+  punchDuration: 0.2
+  vibrato: 8
+  elasticity: 0.8
 --- !u!1 &590095110
 GameObject:
   m_ObjectHideFlags: 0
@@ -2636,6 +2754,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &834252295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 834252296}
+  - component: {fileID: 834252297}
+  m_Layer: 0
+  m_Name: LevelMenuInputHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &834252296
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834252295}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -319.5312, y: -174.21452, z: 0.56341}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1658638754}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &834252297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834252295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b019c33eb3f07924e9010536a50fa512, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuRoot: {fileID: 1658638757}
+  firstSelectable: {fileID: 467892239}
 --- !u!1 &853993857
 GameObject:
   m_ObjectHideFlags: 0
@@ -2648,6 +2812,8 @@ GameObject:
   - component: {fileID: 853993861}
   - component: {fileID: 853993860}
   - component: {fileID: 853993859}
+  - component: {fileID: 853993863}
+  - component: {fileID: 853993862}
   m_Layer: 5
   m_Name: ContinueButton
   m_TagString: Untagged
@@ -2672,8 +2838,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 383.7, y: -145.1}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 159.2, y: -150.5}
+  m_SizeDelta: {x: 150, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &853993859
 MonoBehaviour:
@@ -2719,21 +2885,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1088784099}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+      - m_Target: {fileID: 853993862}
+        m_TargetAssemblyTypeName: MenuButtonAction, Assembly-CSharp
         m_MethodName: ContinueGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 64350034}
-        m_TargetAssemblyTypeName: UIPunch, Assembly-CSharp
-        m_MethodName: Click
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2781,6 +2935,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 853993857}
   m_CullTransparentMesh: 1
+--- !u!114 &853993862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853993857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d2251e832f54d48920f3c4910d5112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punch: {fileID: 853993863}
+  menuManager: {fileID: 1088784099}
+  pauseMenuManager: {fileID: 0}
+  sceneName: 
+--- !u!114 &853993863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853993857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700df20e0a704eb4e91b052830462566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punchAmount: 0.2
+  punchDuration: 0.2
+  vibrato: 8
+  elasticity: 0.8
 --- !u!1 &871203258
 GameObject:
   m_ObjectHideFlags: 0
@@ -2811,7 +2997,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 1657236188}
-  fadeDuration: 0.2
+  fadeDuration: 0.35
 --- !u!4 &871203260
 Transform:
   m_ObjectHideFlags: 0
@@ -3156,6 +3342,8 @@ GameObject:
   - component: {fileID: 1060291640}
   - component: {fileID: 1060291639}
   - component: {fileID: 1060291638}
+  - component: {fileID: 1060291643}
+  - component: {fileID: 1060291642}
   m_Layer: 5
   m_Name: Level2Button
   m_TagString: Untagged
@@ -3242,16 +3430,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1088784099}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+      - m_Target: {fileID: 1060291642}
+        m_TargetAssemblyTypeName: MenuButtonAction, Assembly-CSharp
         m_MethodName: LoadLevelFresh
-        m_Mode: 5
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Level1
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1060291640
@@ -3292,6 +3480,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1060291636}
   m_CullTransparentMesh: 1
+--- !u!114 &1060291642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060291636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d2251e832f54d48920f3c4910d5112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punch: {fileID: 1060291643}
+  menuManager: {fileID: 1088784099}
+  pauseMenuManager: {fileID: 0}
+  sceneName: Level1
+--- !u!114 &1060291643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060291636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700df20e0a704eb4e91b052830462566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punchAmount: 0.2
+  punchDuration: 0.2
+  vibrato: 8
+  elasticity: 0.8
 --- !u!1 &1072961940
 GameObject:
   m_ObjectHideFlags: 0
@@ -3400,8 +3620,10 @@ MonoBehaviour:
   optionsMenu: {fileID: 1289639829}
   levelMenu: {fileID: 1658638757}
   loadgameButton: {fileID: 125130469}
-  continueButton: {fileID: 0}
-  firstOptionsSelectable: {fileID: 6873385}
+  continueButton: {fileID: 853993859}
+  mainMenuInputHandler: {fileID: 1865860941}
+  optionsMenuInputHandler: {fileID: 1506656044}
+  levelMenuInputHandler: {fileID: 834252297}
   levelButtons:
   - {fileID: 467892242}
   - {fileID: 1060291638}
@@ -3432,6 +3654,8 @@ GameObject:
   - component: {fileID: 1110969785}
   - component: {fileID: 1110969784}
   - component: {fileID: 1110969783}
+  - component: {fileID: 1110969787}
+  - component: {fileID: 1110969786}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -3456,8 +3680,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 170, y: -310}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 159.2, y: -310.5}
+  m_SizeDelta: {x: 150, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1110969783
 MonoBehaviour:
@@ -3503,21 +3727,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1088784099}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+      - m_Target: {fileID: 1110969786}
+        m_TargetAssemblyTypeName: MenuButtonAction, Assembly-CSharp
         m_MethodName: QuitGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 64350034}
-        m_TargetAssemblyTypeName: UIPunch, Assembly-CSharp
-        m_MethodName: Click
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3565,6 +3777,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1110969781}
   m_CullTransparentMesh: 1
+--- !u!114 &1110969786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110969781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d2251e832f54d48920f3c4910d5112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punch: {fileID: 1110969787}
+  menuManager: {fileID: 1088784099}
+  pauseMenuManager: {fileID: 0}
+  sceneName: 
+--- !u!114 &1110969787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110969781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700df20e0a704eb4e91b052830462566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punchAmount: 0.2
+  punchDuration: 0.2
+  vibrato: 8
+  elasticity: 0.8
 --- !u!1 &1173996453
 GameObject:
   m_ObjectHideFlags: 0
@@ -3685,8 +3929,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3954,6 +4198,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1506656043}
   - {fileID: 1872272624}
   - {fileID: 1589100729}
   - {fileID: 1647943478}
@@ -4222,6 +4467,52 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1506656042
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1506656043}
+  - component: {fileID: 1506656044}
+  m_Layer: 0
+  m_Name: OptionsMenuInputHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1506656043
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506656042}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -319.5312, y: -174.21452, z: 0.56341}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1289639832}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1506656044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506656042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b019c33eb3f07924e9010536a50fa512, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuRoot: {fileID: 1289639829}
+  firstSelectable: {fileID: 6873385}
 --- !u!1 &1519970459
 GameObject:
   m_ObjectHideFlags: 0
@@ -4234,6 +4525,8 @@ GameObject:
   - component: {fileID: 1519970463}
   - component: {fileID: 1519970462}
   - component: {fileID: 1519970461}
+  - component: {fileID: 1519970465}
+  - component: {fileID: 1519970464}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -4305,21 +4598,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1088784099}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+      - m_Target: {fileID: 1519970464}
+        m_TargetAssemblyTypeName: MenuButtonAction, Assembly-CSharp
         m_MethodName: ShowMainMenuFromOptions
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 64350034}
-        m_TargetAssemblyTypeName: UIPunch, Assembly-CSharp
-        m_MethodName: Click
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4367,6 +4648,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1519970459}
   m_CullTransparentMesh: 1
+--- !u!114 &1519970464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519970459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d2251e832f54d48920f3c4910d5112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punch: {fileID: 1519970465}
+  menuManager: {fileID: 1088784099}
+  pauseMenuManager: {fileID: 0}
+  sceneName: 
+--- !u!114 &1519970465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519970459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700df20e0a704eb4e91b052830462566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punchAmount: 0.2
+  punchDuration: 0.2
+  vibrato: 8
+  elasticity: 0.8
 --- !u!1 &1559021709
 GameObject:
   m_ObjectHideFlags: 0
@@ -4587,8 +4900,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5151,8 +5464,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5731,6 +6044,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 834252296}
   - {fileID: 386789758}
   - {fileID: 467892238}
   - {fileID: 1060291637}
@@ -5901,6 +6215,8 @@ GameObject:
   - component: {fileID: 1678845830}
   - component: {fileID: 1678845829}
   - component: {fileID: 1678845828}
+  - component: {fileID: 1678845832}
+  - component: {fileID: 1678845831}
   m_Layer: 5
   m_Name: NewGameButton
   m_TagString: Untagged
@@ -5925,8 +6241,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 170, y: -145}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 159.2, y: -190.5}
+  m_SizeDelta: {x: 150, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1678845828
 MonoBehaviour:
@@ -5972,33 +6288,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1088784099}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1088784099}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+      - m_Target: {fileID: 1678845831}
+        m_TargetAssemblyTypeName: MenuButtonAction, Assembly-CSharp
         m_MethodName: NewGame
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: TutorialLevel
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 64350034}
-        m_TargetAssemblyTypeName: UIPunch, Assembly-CSharp
-        m_MethodName: Click
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6046,6 +6338,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1678845826}
   m_CullTransparentMesh: 1
+--- !u!114 &1678845831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678845826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d2251e832f54d48920f3c4910d5112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punch: {fileID: 1678845832}
+  menuManager: {fileID: 1088784099}
+  pauseMenuManager: {fileID: 0}
+  sceneName: TutorialLevel
+--- !u!114 &1678845832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678845826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700df20e0a704eb4e91b052830462566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punchAmount: 0.2
+  punchDuration: 0.2
+  vibrato: 8
+  elasticity: 0.8
 --- !u!1 &1745984359
 GameObject:
   m_ObjectHideFlags: 0
@@ -6533,6 +6857,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1865860939
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1865860940}
+  - component: {fileID: 1865860941}
+  m_Layer: 0
+  m_Name: MainMenuInputHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1865860940
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865860939}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -319.5312, y: -174.21452, z: 0.56341}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1985717056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1865860941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865860939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b019c33eb3f07924e9010536a50fa512, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuRoot: {fileID: 1985717057}
+  firstSelectable: {fileID: 853993859}
 --- !u!1 &1872272623
 GameObject:
   m_ObjectHideFlags: 0
@@ -6825,8 +7195,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6964,6 +7334,8 @@ GameObject:
   - component: {fileID: 1955652573}
   - component: {fileID: 1955652572}
   - component: {fileID: 1955652571}
+  - component: {fileID: 1955652575}
+  - component: {fileID: 1955652574}
   m_Layer: 5
   m_Name: OptionsButton
   m_TagString: Untagged
@@ -6988,8 +7360,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 170, y: -255}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 159.2, y: -270.5}
+  m_SizeDelta: {x: 150, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1955652571
 MonoBehaviour:
@@ -7035,8 +7407,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1088784099}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+      - m_Target: {fileID: 1955652574}
+        m_TargetAssemblyTypeName: MenuButtonAction, Assembly-CSharp
         m_MethodName: ShowOptionsMenu
         m_Mode: 1
         m_Arguments:
@@ -7045,19 +7417,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 64350034}
-        m_TargetAssemblyTypeName: UIPunch, Assembly-CSharp
-        m_MethodName: Click
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1955652572
 MonoBehaviour:
@@ -7097,6 +7457,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955652569}
   m_CullTransparentMesh: 1
+--- !u!114 &1955652574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955652569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d2251e832f54d48920f3c4910d5112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punch: {fileID: 1955652575}
+  menuManager: {fileID: 1088784099}
+  pauseMenuManager: {fileID: 0}
+  sceneName: 
+--- !u!114 &1955652575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955652569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700df20e0a704eb4e91b052830462566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punchAmount: 0.2
+  punchDuration: 0.2
+  vibrato: 8
+  elasticity: 0.8
 --- !u!1 &1985717052
 GameObject:
   m_ObjectHideFlags: 0
@@ -7166,6 +7558,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1865860940}
   - {fileID: 1601533371}
   - {fileID: 235132942}
   - {fileID: 853993858}
@@ -7303,3 +7696,4 @@ SceneRoots:
   - {fileID: 438180464}
   - {fileID: 707380514}
   - {fileID: 276989281}
+  - {fileID: 392138910}

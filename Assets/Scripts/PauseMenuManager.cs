@@ -7,7 +7,8 @@ public class PauseMenuManager : MonoBehaviour
 {
     public GameObject pauseMenu;
     public static bool isPaused;
-    public Button firstSelectedButton;
+    public MenuInputHandler pauseMenuInputHandler;
+    [SerializeField] private PlayerController playerController;
 
     void Start()
     {
@@ -19,6 +20,8 @@ public class PauseMenuManager : MonoBehaviour
 
     void Update()
     {
+        if (SceneLoader.Instance != null && SceneLoader.Instance.IsLoading) return;
+
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton6))
         {
             if (isPaused) ResumeGame();
@@ -28,7 +31,10 @@ public class PauseMenuManager : MonoBehaviour
 
     public void PauseGame()
     {
-        pauseMenu.SetActive(true);
+        if (SceneLoader.Instance != null && SceneLoader.Instance.IsLoading) return;
+
+        StartCoroutine(OpenPauseMenuNextFrame());
+
         Time.timeScale = 0f;
         AudioListener.pause = true;
         isPaused = true;
@@ -39,7 +45,8 @@ public class PauseMenuManager : MonoBehaviour
             ScreenFader.Instance.canvasGroup.blocksRaycasts = false;
         }
 
-        EventSystem.current.SetSelectedGameObject(firstSelectedButton.gameObject);
+        if (playerController != null)
+            playerController.OnGamePaused();
     }
 
     public void ResumeGame()
@@ -48,19 +55,35 @@ public class PauseMenuManager : MonoBehaviour
         Time.timeScale = 1f;
         AudioListener.pause = false;
         isPaused = false;
+
+        if (playerController != null)
+            playerController.OnGameResumed();
     }
 
     public void GoToMainMenu()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(0);
-        AudioListener.pause = false;
-        AudioManager.Instance.StopMusic();
-        if (MenuAudioManager.Instance != null)
-        {
-            MenuAudioManager.Instance.RestartMusic();
-        }
 
+        if (SceneLoader.Instance != null)
+            SceneLoader.Instance.LoadScene("MainMenu");
+
+    }
+
+    //this ensures that there is no issue with input bleed for first selected button
+    private System.Collections.IEnumerator OpenPauseMenuNextFrame()
+    {
+        if (pauseMenuInputHandler != null)
+            pauseMenuInputHandler.ClearSelection();
+
+        //wait for 1 frame
+        yield return null;
+
+        pauseMenu.SetActive(true);
+
+        //wait for 1 frame
+        yield return null;
+
+        if (pauseMenuInputHandler != null)
+            pauseMenuInputHandler.ClearSelection();
     }
 
     public void QuitGame()
