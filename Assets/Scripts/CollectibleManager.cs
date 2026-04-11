@@ -58,4 +58,9 @@ public class CollectibleManager : MonoBehaviour
             collectibleText.text = $"{collectibleCount}/{totalCollectibles}";
         }
     }
+
+    public int GetCollectedCount()
+    {
+        return collectibleCount;
+    }
 }

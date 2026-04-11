@@ -28,6 +28,10 @@ public class CheckpointTrigger : MonoBehaviour
 
         Debug.Log($"Checkpoint saved: {sceneName} - {checkpointID}");
 
+        Timer timer = FindFirstObjectByType<Timer>();
+        if (timer != null)
+            timer.SaveTime();
+
         //activated = true;
     }
 }

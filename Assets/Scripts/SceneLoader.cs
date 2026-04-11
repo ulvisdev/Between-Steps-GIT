@@ -57,6 +57,8 @@ public class SceneLoader : MonoBehaviour
 
         yield return SceneManager.LoadSceneAsync(sceneName);
 
+        CursorToggle();
+
         PlaySceneMusic();
 
         //wait for 1 frame so dotween has time to collect itself between scenes
@@ -65,7 +67,11 @@ public class SceneLoader : MonoBehaviour
         if (ScreenFader.Instance != null)
             yield return StartCoroutine(ScreenFader.Instance.FadeIn());
 
-        //PlaySceneMusic();            
+        //PlaySceneMusic();
+
+        LevelPopUpManager popup = FindFirstObjectByType<LevelPopUpManager>();
+        if (popup != null)
+            popup.ShowLevelText();
 
         isLoading = false;
     }
@@ -85,6 +91,8 @@ public class SceneLoader : MonoBehaviour
 
         yield return SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
 
+        CursorToggle();
+
         PlaySceneMusic();
 
         //wait for 1 frame so dotween has time to collect itself between scenes
@@ -94,6 +102,10 @@ public class SceneLoader : MonoBehaviour
             yield return StartCoroutine(ScreenFader.Instance.FadeIn());
 
         //PlaySceneMusic();
+
+        LevelPopUpManager popup = FindFirstObjectByType<LevelPopUpManager>();
+        if (popup != null)
+            popup.ShowLevelText();
 
         isLoading = false;
     }
@@ -112,6 +124,8 @@ public class SceneLoader : MonoBehaviour
 
         yield return SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
 
+        CursorToggle();
+
         PlaySceneMusic();
 
         //wait for 1 frame so dotween has time to collect itself between scenes
@@ -119,6 +133,10 @@ public class SceneLoader : MonoBehaviour
 
         if (ScreenFader.Instance != null)
             yield return StartCoroutine(ScreenFader.Instance.FadeIn());
+
+        LevelPopUpManager popup = FindFirstObjectByType<LevelPopUpManager>();
+        if (popup != null)
+            popup.ShowLevelText();
 
         //PlaySceneMusic();
 
@@ -169,6 +187,18 @@ public class SceneLoader : MonoBehaviour
         Time.timeScale = 1f;
         AudioListener.pause = false;
         isPaused = false;
+    }
+
+    private void CursorToggle()
+    {
+        Cursor.visible = false;
+        if (CursorManager.Instance != null)
+        {
+            if (SceneManager.GetActiveScene().name == "MainMenu")
+                CursorManager.Instance.SetMenuMode(true);
+            else
+                CursorManager.Instance.SetMenuMode(false);
+        }
     }
 
     public void QuitGame()

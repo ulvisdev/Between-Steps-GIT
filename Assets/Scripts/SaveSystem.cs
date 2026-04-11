@@ -38,6 +38,16 @@ public static class SaveSystem
         return $"SAVE_LAST_CHECKPOINT_{sceneName}";
     }
 
+    public static string GetRunTimerKey(string levelName)
+    {
+        return $"RUN_TIMER_{levelName}";
+    }
+
+    public static string GetRunDeathCountKey(string levelName)
+    {
+        return $"RUN_DEATHS_{levelName}";
+    }
+
     public static void ResetGameProgress()
     {
         string[] knownLevels = { "TutorialLevel", "Level1", "Level2" };
@@ -45,6 +55,9 @@ public static class SaveSystem
 
         foreach (string level in knownLevels)
         {
+            PlayerPrefs.DeleteKey(GetRunTimerKey(level));
+            PlayerPrefs.DeleteKey(GetRunDeathCountKey(level));
+
             PlayerPrefs.DeleteKey(GetCollectibleCountKey(level));
             PlayerPrefs.DeleteKey(GetRunCollectibleCountKey(level));
             PlayerPrefs.DeleteKey(GetLastCheckpointKey(level));
@@ -66,6 +79,8 @@ public static class SaveSystem
     {
         string[] collectibleIDs = { "C1", "C2", "C3" };
 
+        PlayerPrefs.DeleteKey(GetRunTimerKey(levelName));
+        PlayerPrefs.DeleteKey(GetRunDeathCountKey(levelName));
         PlayerPrefs.DeleteKey(GetRunCollectibleCountKey(levelName));
         PlayerPrefs.DeleteKey(GetLastCheckpointKey(levelName));
 

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class FinishPoint : MonoBehaviour
 {
@@ -12,20 +11,11 @@ public class FinishPoint : MonoBehaviour
 
         finished = true;
 
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        int nextSceneIndex = currentSceneIndex + 1;
+        LevelComplete levelComplete = FindFirstObjectByType<LevelComplete>();
 
-        int highestUnlocked = PlayerPrefs.GetInt("HighestLevel", 1);
-
-        if (nextSceneIndex > highestUnlocked)
-        {
-            PlayerPrefs.SetInt("HighestLevel", nextSceneIndex);
-            PlayerPrefs.Save();
-        }
-
-        Debug.Log("Saved HighestLevel = " + PlayerPrefs.GetInt("HighestLevel"));
-
-        if (SceneLoader.Instance != null)
-            SceneLoader.Instance.NextLevel();
+        if (levelComplete != null)
+            levelComplete.CompleteLevel();
+        else
+            Debug.LogError("LevelComplete not found in scene.");
     }
 }

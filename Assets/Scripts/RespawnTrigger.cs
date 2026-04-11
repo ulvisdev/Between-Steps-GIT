@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class RespawnTrigger : MonoBehaviour
 {
@@ -10,7 +11,13 @@ public class RespawnTrigger : MonoBehaviour
     [SerializeField] private float freezeTime = 0.3f;
     [SerializeField] private float transitionTime = 0.2f;
 
+    private string levelName;
     private bool isRespawning = false;
+
+    private void Awake()
+    {
+        levelName = SceneManager.GetActiveScene().name;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -39,6 +46,12 @@ public class RespawnTrigger : MonoBehaviour
         Animator anim = player.GetComponent<Animator>();
 
         player.Die();
+
+        int deaths = PlayerPrefs.GetInt(SaveSystem.GetRunDeathCountKey(levelName), 0);
+        deaths++;
+        PlayerPrefs.SetInt(SaveSystem.GetRunDeathCountKey(levelName), deaths);
+        PlayerPrefs.Save();
+
         if (anim != null)
             anim.SetBool("isDead", true);
 

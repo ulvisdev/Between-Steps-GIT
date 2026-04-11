@@ -19,6 +19,9 @@ public class MenuManager : MonoBehaviour
     public MenuInputHandler levelMenuInputHandler;
     public LevelButton[] levelButtons;
 
+    [Header("Options")]
+    [SerializeField] private Toggle speedrunnerModeToggle;
+
     void Start()
     {
 
@@ -33,17 +36,28 @@ public class MenuManager : MonoBehaviour
             ScreenFader.Instance.canvasGroup.blocksRaycasts = false;
         }
 
+        if (speedrunnerModeToggle != null)
+        {
+            speedrunnerModeToggle.isOn = GameSettings.SpeedrunnerModeEnabled;
+            speedrunnerModeToggle.onValueChanged.AddListener(OnSpeedrunnerModeChanged);
+        }
+
         UpdateLoadGameButton();
         UpdateContinueButton();
 
         if (mainMenuInputHandler != null)
             mainMenuInputHandler.ClearSelection();
+
+        CursorManager.Instance.SetMenuMode(true);
+        CursorManager.Instance.ShowCursor();
+
     }
 
     public void NewGame(string firstSceneName)
     {
         SaveSystem.ResetGameProgress();
         PlayerPrefs.DeleteKey(SaveSystem.GetLastSceneKey());
+        RunState.ApplySettingsToNewRun();
 
         if (SceneLoader.Instance != null)
             SceneLoader.Instance.LoadScene(firstSceneName);
@@ -66,6 +80,7 @@ public class MenuManager : MonoBehaviour
     public void LoadLevelFresh(string sceneName)
     {
         SaveSystem.ResetLevelRunProgress(sceneName);
+        RunState.ApplySettingsToNewRun();
 
         if (SceneLoader.Instance != null)
             SceneLoader.Instance.LoadScene(sceneName);
@@ -174,6 +189,11 @@ public class MenuManager : MonoBehaviour
         int highestLevel = PlayerPrefs.GetInt("HighestLevel", 1);
 
         loadgameButton.interactable = highestLevel >= 2;
+    }
+
+    private void OnSpeedrunnerModeChanged(bool isOn)
+    {
+        GameSettings.SpeedrunnerModeEnabled = isOn;
     }
 
     public void QuitGame()

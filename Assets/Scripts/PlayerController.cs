@@ -83,6 +83,7 @@ public class PlayerController : MonoBehaviour
     private bool blockGameplayInput;
     private bool requireJumpReleaseAfterPause;
     private bool requireDashReleaseAfterPause;
+    private bool hasStartedTimer = false;
 
     // =========================
     // Cached Components
@@ -91,12 +92,14 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     private Gamepad activeGamepad;
+    private Timer timer;
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        timer = FindFirstObjectByType<Timer>();
         //spriteRenderer = GetComponent<SpriteRenderer>();
         //tr = GetComponent<TrailRenderer>();
 
@@ -201,7 +204,7 @@ public class PlayerController : MonoBehaviour
 
             if (activeGamepad != null)
             {
-                activeGamepad.SetMotorSpeeds(0.25f, 0.65f);
+                activeGamepad.SetMotorSpeeds(0.35f, 0.75f);
             }
 
             //sound effect
@@ -212,7 +215,7 @@ public class PlayerController : MonoBehaviour
 
             smokeFX.Play();
             tilemapswitch.TilemapSwitcheroo(); //TILEMAP SWITCHEROOOO
-            CameraShakeManager.Instance.Shake(1.5f, 0.15f); //CAMERA SHAKEEE
+            CameraShakeManager.Instance.Shake(1.75f, 0.15f); //CAMERA SHAKEEE
 
             if (dashingDir == Vector2.zero)
             {
@@ -264,6 +267,16 @@ public class PlayerController : MonoBehaviour
         else
             accelRate = runDeceleration;
 
+        // START TIMER ON FIRST MOVEMENT ----------------------------------------
+        if (!hasStartedTimer && RunState.CurrentRunSpeedrunnerMode)
+        {
+            if (timer != null && Mathf.Abs(XInput) > 0.01f)
+            {   
+                timer.SetTimerActive(true);
+                hasStartedTimer = true;
+            }
+        }
+
         // COYOTE ---------------------------------------------------------------
 
         if (isGrounded /*&& isGroundedEDGE*/)
@@ -275,7 +288,7 @@ public class PlayerController : MonoBehaviour
 
         // JUMP BUFFER ----------------------------------------------------------
 
-            //previous jump buffer
+        //previous jump buffer
         // if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.JoystickButton0))
         // {
         //     jumpBufferCounter = jumpBufferTime;
@@ -500,12 +513,17 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+
+        CameraShakeManager.Instance.Shake(1.75f, 0.15f); //CAMERA SHAKEEE
+        StartCoroutine(DeathRumble());
+
         isDead = true;
         isDashing = false;
         canDash = false;
         rb.linearVelocity = Vector2.zero;
         rb.gravityScale = 0f;
         rb.bodyType = RigidbodyType2D.Kinematic;
+
     }
 
     public void Revive()
@@ -514,6 +532,22 @@ public class PlayerController : MonoBehaviour
         rb.gravityScale = defaultGravityScale;
         rb.linearVelocity = Vector2.zero;
         isDead = false;
+    }
+
+    private IEnumerator DeathRumble()
+    {
+
+        activeGamepad = Gamepad.current;
+
+        if (activeGamepad != null)
+        {
+            activeGamepad.SetMotorSpeeds(0.35f, 0.75f);
+        }
+
+        yield return new WaitForSeconds(0.25f);
+
+        StopRumble();
+
     }
 
     public void SetCheckpoint(Transform newCheckpoint)

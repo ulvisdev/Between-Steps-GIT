@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PauseMenuManager : MonoBehaviour
 {
@@ -39,6 +40,9 @@ public class PauseMenuManager : MonoBehaviour
         AudioListener.pause = true;
         isPaused = true;
 
+        if (CursorManager.Instance != null)
+            CursorManager.Instance.SetMenuMode(true);
+
         if (ScreenFader.Instance != null)
         {
             ScreenFader.Instance.canvasGroup.alpha = 0f;
@@ -56,12 +60,17 @@ public class PauseMenuManager : MonoBehaviour
         AudioListener.pause = false;
         isPaused = false;
 
+        if (CursorManager.Instance != null)
+            CursorManager.Instance.SetMenuMode(false);
+
         if (playerController != null)
             playerController.OnGameResumed();
     }
 
     public void GoToMainMenu()
     {
+        if (CursorManager.Instance != null)
+            CursorManager.Instance.SetMenuMode(true);
 
         if (SceneLoader.Instance != null)
             SceneLoader.Instance.LoadScene("MainMenu");
@@ -69,7 +78,7 @@ public class PauseMenuManager : MonoBehaviour
     }
 
     //this ensures that there is no issue with input bleed for first selected button
-    private System.Collections.IEnumerator OpenPauseMenuNextFrame()
+    private IEnumerator OpenPauseMenuNextFrame()
     {
         if (pauseMenuInputHandler != null)
             pauseMenuInputHandler.ClearSelection();
