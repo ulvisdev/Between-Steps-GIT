@@ -3,11 +3,14 @@ using UnityEngine;
 public static class LevelStats
 {
     public static string GetBestTimeKey(string sceneName) => $"BEST_TIME_{sceneName}";
-    public static string GetBestDeathsKey(string sceneName) => $"BEST_DEATHS_{sceneName}";
+    public static string GetTotalDeathsKey(string sceneName) => $"TOTAL_DEATHS_{sceneName}";
     public static string GetBestCollectiblesKey(string sceneName) => $"BEST_COLLECTIBLES_{sceneName}";
 
     public static void SaveBestTime(string sceneName, float newTime)
     {
+        if (newTime <= 0f)
+            return;
+
         string key = GetBestTimeKey(sceneName);
 
         if (!PlayerPrefs.HasKey(key))
@@ -31,29 +34,20 @@ public static class LevelStats
         return PlayerPrefs.GetFloat(GetBestTimeKey(sceneName), -1f);
     }
 
-    public static void SaveBestDeaths(string sceneName, int newDeaths)
+    public static void AddDeaths(string sceneName, int deathsToAdd)
     {
-        string key = GetBestDeathsKey(sceneName);
+        string key = GetTotalDeathsKey(sceneName);
+        int currentDeaths = PlayerPrefs.GetInt(key, 0);
 
-        if (!PlayerPrefs.HasKey(key))
-        {
-            PlayerPrefs.SetInt(key, newDeaths);
-            PlayerPrefs.Save();
-            return;
-        }
+        currentDeaths += deathsToAdd;
 
-        int currentBest = PlayerPrefs.GetInt(key);
-
-        if (newDeaths < currentBest)
-        {
-            PlayerPrefs.SetInt(key, newDeaths);
-            PlayerPrefs.Save();
-        }
+        PlayerPrefs.SetInt(key, currentDeaths);
+        PlayerPrefs.Save();
     }
 
-    public static int GetBestDeaths(string sceneName)
+    public static int GetTotalDeaths(string sceneName)
     {
-        return PlayerPrefs.GetInt(GetBestDeathsKey(sceneName), -1);
+        return PlayerPrefs.GetInt(GetTotalDeathsKey(sceneName), 0);
     }
 
     public static void SaveBestCollectibles(string sceneName, int collected)
@@ -84,7 +78,7 @@ public static class LevelStats
     public static void ResetLevelStats(string sceneName)
     {
         PlayerPrefs.DeleteKey(GetBestTimeKey(sceneName));
-        PlayerPrefs.DeleteKey(GetBestDeathsKey(sceneName));
+        PlayerPrefs.DeleteKey(GetTotalDeathsKey(sceneName));
         PlayerPrefs.DeleteKey(GetBestCollectiblesKey(sceneName));
         PlayerPrefs.Save();
     }

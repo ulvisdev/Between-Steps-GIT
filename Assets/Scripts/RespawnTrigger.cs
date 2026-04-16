@@ -24,7 +24,7 @@ public class RespawnTrigger : MonoBehaviour
         if (isRespawning) return;
         if (!collision.CompareTag("Player")) return;
 
-        Rigidbody2D rb = collision.attachedRigidbody; // takes player rigidbody
+        Rigidbody2D rb = collision.attachedRigidbody;
         if (rb == null) rb = collision.GetComponent<Rigidbody2D>();
         if (rb == null) return;
 
@@ -52,6 +52,8 @@ public class RespawnTrigger : MonoBehaviour
         PlayerPrefs.SetInt(SaveSystem.GetRunDeathCountKey(levelName), deaths);
         PlayerPrefs.Save();
 
+        LevelStats.AddDeaths(levelName, 1);
+
         if (anim != null)
             anim.SetBool("isDead", true);
 
@@ -59,11 +61,10 @@ public class RespawnTrigger : MonoBehaviour
 
         if (ScreenFader.Instance != null)
             yield return StartCoroutine(ScreenFader.Instance.FadeOut());
+
         yield return new WaitForSeconds(transitionTime);
 
-        // move player 
         rb.position = pos;
-
         rb.linearVelocity = Vector2.zero;
 
         if (anim != null)
@@ -77,7 +78,5 @@ public class RespawnTrigger : MonoBehaviour
             yield return StartCoroutine(ScreenFader.Instance.FadeIn());
 
         isRespawning = false;
-
     }
-
 }

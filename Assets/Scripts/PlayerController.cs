@@ -186,13 +186,25 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = isDashing ? 0f : defaultGravityScale;
 
             //fix for dpad bug with dash
-            if (Mathf.Abs(dpadX) > 0.1f)
+            // if (Mathf.Abs(dpadX) > 0.1f)
+            // {
+            //     dashingDir = new Vector2(dpadX, 0f);
+            // }
+            // else if (Mathf.Abs(dpadY) > 0.1f)
+            // {
+            //     dashingDir = new Vector2(0f, dpadY);
+            // }
+            // else
+            // {
+            //     dashingDir = new Vector2(XInput, YInput);
+            // }
+
+            //new fix for dpad dash direction
+            Vector2 dpadInput = new Vector2(dpadX, dpadY);
+
+            if (dpadInput.sqrMagnitude > 0.01f)
             {
-                dashingDir = new Vector2(dpadX, 0f);
-            }
-            else if (Mathf.Abs(dpadY) > 0.1f)
-            {
-                dashingDir = new Vector2(0f, dpadY);
+                dashingDir = dpadInput.normalized;
             }
             else
             {
@@ -271,7 +283,7 @@ public class PlayerController : MonoBehaviour
         if (!hasStartedTimer && RunState.CurrentRunSpeedrunnerMode)
         {
             if (timer != null && Mathf.Abs(XInput) > 0.01f)
-            {   
+            {
                 timer.SetTimerActive(true);
                 hasStartedTimer = true;
             }

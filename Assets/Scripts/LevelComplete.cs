@@ -10,11 +10,13 @@ public class LevelComplete : MonoBehaviour
         Timer timer = FindFirstObjectByType<Timer>();
         CollectibleManager collectibleManager = FindFirstObjectByType<CollectibleManager>();
 
-        if (timer != null)
-            LevelStats.SaveBestTime(levelName, timer.GetCurrentTime());
+        if (timer != null && RunState.CurrentRunSpeedrunnerMode)
+        {
+            float finalTime = timer.GetCurrentTime();
 
-        int deaths = PlayerPrefs.GetInt(SaveSystem.GetRunDeathCountKey(levelName), 0);
-        LevelStats.SaveBestDeaths(levelName, deaths);
+            if (finalTime > 0f)
+                LevelStats.SaveBestTime(levelName, finalTime);
+        }
 
         if (collectibleManager != null)
             LevelStats.SaveBestCollectibles(levelName, collectibleManager.GetCollectedCount());

@@ -69,6 +69,8 @@ public class Timer : MonoBehaviour
     private bool isTimerActive;
     private string levelName;
 
+    private string CurrentTimerKey => SaveSystem.GetRunTimerKey(levelName);
+
     private void Awake()
     {
         levelName = SceneManager.GetActiveScene().name;
@@ -116,7 +118,6 @@ public class Timer : MonoBehaviour
     {
         elapsedTime = 0f;
         isTimerActive = false;
-        SaveTime();
         UpdateTimerText();
     }
 
@@ -125,18 +126,21 @@ public class Timer : MonoBehaviour
         if (!RunState.CurrentRunSpeedrunnerMode)
             return;
 
-        PlayerPrefs.SetFloat(SaveSystem.GetRunTimerKey(levelName), elapsedTime);
+        if (elapsedTime <= 0f)
+            return;
+
+        PlayerPrefs.SetFloat(CurrentTimerKey, elapsedTime);
         PlayerPrefs.Save();
     }
 
     public void LoadSavedTime()
     {
-        elapsedTime = PlayerPrefs.GetFloat(SaveSystem.GetRunTimerKey(levelName), 0f);
+        elapsedTime = PlayerPrefs.GetFloat(CurrentTimerKey, 0f);
     }
 
     public void ClearSavedTime()
     {
-        PlayerPrefs.DeleteKey(SaveSystem.GetRunTimerKey(levelName));
+        PlayerPrefs.DeleteKey(CurrentTimerKey);
         PlayerPrefs.Save();
     }
 
@@ -144,10 +148,10 @@ public class Timer : MonoBehaviour
     {
         int minutes = Mathf.FloorToInt(elapsedTime / 60f);
         int seconds = Mathf.FloorToInt(elapsedTime % 60f);
-        int milliseconds = Mathf.FloorToInt(elapsedTime * 100f % 100f);
+        int milliseconds = Mathf.FloorToInt(elapsedTime * 1000f % 1000f);
 
         if (timerText != null)
-            timerText.text = $"{minutes:00}:{seconds:00}:{milliseconds:00}";
+            timerText.text = $"{minutes:00}:{seconds:00}.{milliseconds:000}";
     }
 
     public float GetCurrentTime()

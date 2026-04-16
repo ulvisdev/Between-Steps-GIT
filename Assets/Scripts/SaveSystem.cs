@@ -43,6 +43,11 @@ public static class SaveSystem
         return $"RUN_TIMER_{levelName}";
     }
 
+    public static string GetBestTimeKey(string levelName)
+    {
+        return $"BEST_TIME_{levelName}";
+    }
+
     public static string GetRunDeathCountKey(string levelName)
     {
         return $"RUN_DEATHS_{levelName}";
@@ -50,7 +55,7 @@ public static class SaveSystem
 
     public static void ResetGameProgress()
     {
-        string[] knownLevels = { "TutorialLevel", "Level1", "Level2" };
+        string[] knownLevels = { "Level1", "Level2", "Level3" };
         string[] collectibleIDs = { "C1", "C2", "C3" };
 
         foreach (string level in knownLevels)
@@ -67,6 +72,8 @@ public static class SaveSystem
                 PlayerPrefs.DeleteKey(GetCollectibleKey(level, collectibleID));
                 PlayerPrefs.DeleteKey(GetRunCollectibleKey(level, collectibleID));
             }
+
+            LevelStats.ResetLevelStats(level);
         }
 
         PlayerPrefs.DeleteKey("HighestLevel");
