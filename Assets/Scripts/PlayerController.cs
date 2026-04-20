@@ -227,7 +227,7 @@ public class PlayerController : MonoBehaviour
 
             smokeFX.Play();
             tilemapswitch.TilemapSwitcheroo(); //TILEMAP SWITCHEROOOO
-            CameraShakeManager.Instance.Shake(1.75f, 0.15f); //CAMERA SHAKEEE
+            CameraShakeManager.Instance.Shake(2f, 0.25f); //CAMERA SHAKEEE
 
             if (dashingDir == Vector2.zero)
             {
@@ -403,11 +403,27 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void PlayRunSFX()
+    public void PlayStep1SFX()
     {
-        if (AudioManager.Instance != null && AudioManager.Instance.stepSFX != null)
+        if (AudioManager.Instance != null && AudioManager.Instance.step1SFX != null)
         {
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.stepSFX);
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.step1SFX, 1.5f);
+        }
+    }
+
+    public void PlayStep2SFX()
+    {
+        if (AudioManager.Instance != null && AudioManager.Instance.step2SFX != null)
+        {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.step2SFX, 1.5f);
+        }
+    }
+
+    public void PlayDeathSFX()
+    {
+        if (AudioManager.Instance != null && AudioManager.Instance.deathSFX != null)
+        {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.deathSFX);
         }
     }
 
@@ -526,7 +542,7 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
 
-        CameraShakeManager.Instance.Shake(1.75f, 0.15f); //CAMERA SHAKEEE
+        CameraShakeManager.Instance.Shake(2f, 0.25f); //CAMERA SHAKEEE
         StartCoroutine(DeathRumble());
 
         isDead = true;

@@ -56,7 +56,7 @@ public static class SaveSystem
     public static void ResetGameProgress()
     {
         string[] knownLevels = { "Level1", "Level2", "Level3" };
-        string[] collectibleIDs = { "C1", "C2", "C3" };
+        string[] collectibleIDs = { "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10" };
 
         foreach (string level in knownLevels)
         {
@@ -84,7 +84,7 @@ public static class SaveSystem
 
     public static void ResetLevelRunProgress(string levelName)
     {
-        string[] collectibleIDs = { "C1", "C2", "C3" };
+        string[] collectibleIDs = { "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10" };
 
         PlayerPrefs.DeleteKey(GetRunTimerKey(levelName));
         PlayerPrefs.DeleteKey(GetRunDeathCountKey(levelName));

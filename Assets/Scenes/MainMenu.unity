@@ -1234,11 +1234,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 276989283}
   sfxSource: {fileID: 276989282}
-  backgroundMusic: {fileID: 8300000, guid: 627b6881e5b890047995c84ecabb963f, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: 74a52b47112a9f848a2564800a6dff3e, type: 3}
   jumpSFX: {fileID: 8300000, guid: 71aa0cdb3b85bf2418725b5453a45c42, type: 3}
   collectibleSFX: {fileID: 8300000, guid: 5221867f6d7aa1b4dbbb843fb94d5a26, type: 3}
-  stepSFX: {fileID: 8300000, guid: 2a48ab6f80ace5e4bb0964bd9a0acda4, type: 3}
+  step1SFX: {fileID: 8300000, guid: d265bbb44d69344488895b79dc4a6748, type: 3}
+  step2SFX: {fileID: 8300000, guid: c7912a9f5447272408756fc239d73897, type: 3}
   dashSFX: {fileID: 8300000, guid: ca627abc9b45b63469554ad420258023, type: 3}
+  deathSFX: {fileID: 8300000, guid: e8f7233e48af5404798d28765a90a470, type: 3}
 --- !u!4 &276989281
 Transform:
   m_ObjectHideFlags: 0
@@ -2919,7 +2921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicSource: {fileID: 707380513}
-  backgroundMusic: {fileID: 8300000, guid: 954b81ed1e3e75c4a967ba0babaef831, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: 3f681af3e6d7405489cc8eda26c3d365, type: 3}
 --- !u!1 &764201190
 GameObject:
   m_ObjectHideFlags: 0
@@ -4744,7 +4746,7 @@ MonoBehaviour:
   bestCollectiblesText: {fileID: 1757264037}
   collectiblesCG: {fileID: 1757264039}
   lockText: {fileID: 0}
-  maxCollectiblesPerLevel: 0300000003000000
+  maxCollectiblesPerLevel: 0200000003000000
   panelFadeDuration: 0.15
   itemFadeDuration: 0.25
   itemMoveDistance: 10

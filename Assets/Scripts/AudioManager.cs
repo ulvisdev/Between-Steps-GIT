@@ -11,10 +11,13 @@ public class AudioManager : MonoBehaviour
     public AudioClip backgroundMusic;
     public AudioClip jumpSFX;
     public AudioClip collectibleSFX;
-    public AudioClip stepSFX;
+    public AudioClip step1SFX;
+    public AudioClip step2SFX;
     public AudioClip dashSFX;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    public AudioClip deathSFX;
+
+
+        void Awake()
     {
         if (Instance == null)
         {
@@ -37,11 +40,11 @@ public class AudioManager : MonoBehaviour
         // }
     }
 
-    public void PlaySFX(AudioClip clip)
+    public void PlaySFX(AudioClip clip, float volume = 1f)
     {
         if (clip != null && sfxSource != null)
         {
-            sfxSource.PlayOneShot(clip);
+            sfxSource.PlayOneShot(clip, volume);
         }
     }
 
