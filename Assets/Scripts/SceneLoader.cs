@@ -165,6 +165,12 @@ public class SceneLoader : MonoBehaviour
         {
             if (AudioManager.Instance != null && AudioManager.Instance.backgroundMusic != null)
                 AudioManager.Instance.PlayMusic(AudioManager.Instance.backgroundMusic);
+
+            if (AudioManager.Instance != null && AudioManager.Instance.chirpingSounds != null)
+                AudioManager.Instance.PlayLoop(AudioManager.Instance.chirpingSource, AudioManager.Instance.chirpingSounds);
+
+            if (AudioManager.Instance != null && AudioManager.Instance.rainSounds != null)
+                AudioManager.Instance.PlayLoop(AudioManager.Instance.rainSource, AudioManager.Instance.rainSounds);
         }
     }
 

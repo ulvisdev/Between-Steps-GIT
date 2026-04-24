@@ -7,17 +7,24 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Sources")]
     public AudioSource musicSource;
     public AudioSource sfxSource;
+    public AudioSource chirpingSource;
+    public AudioSource rainSource;
     [Header("AudioClips")]
     public AudioClip backgroundMusic;
-    public AudioClip jumpSFX;
+    public AudioClip rainSounds;
+    public AudioClip chirpingSounds;
+
+    public AudioClip jump1SFX;
+    public AudioClip jump2SFX;
     public AudioClip collectibleSFX;
     public AudioClip step1SFX;
     public AudioClip step2SFX;
-    public AudioClip dashSFX;
+    public AudioClip dash1SFX;
+    public AudioClip dash2SFX;
     public AudioClip deathSFX;
 
 
-        void Awake()
+    void Awake()
     {
         if (Instance == null)
         {
@@ -59,11 +66,32 @@ public class AudioManager : MonoBehaviour
         musicSource.Play();
     }
 
+    public void PlayLoop(AudioSource source, AudioClip clip)
+    {
+        if (source == null || clip == null) return;
+
+        if (source.clip == clip && source.isPlaying) return;
+
+        source.clip = clip;
+        source.loop = true;
+        source.Play();
+    }
+
     public void StopMusic()
     {
         if (musicSource != null && musicSource.clip != null)
         {
             musicSource.Stop();
+        }
+
+        if (chirpingSource != null && chirpingSource.clip != null)
+        {
+            chirpingSource.Stop();
+        }
+
+        if (rainSource != null && rainSource.clip != null)
+        {
+            rainSource.Stop();
         }
     }
 
@@ -75,4 +103,17 @@ public class AudioManager : MonoBehaviour
             musicSource.Play();
         }
     }
+
+    public void PlayRandomDash()
+    {
+        AudioClip clip = Random.value < 0.5f ? dash1SFX : dash2SFX;
+        PlaySFX(clip);
+    }
+
+    public void PlayRandomJump()
+    {
+        AudioClip clip = Random.value < 0.5f ? jump1SFX : jump2SFX;
+        PlaySFX(clip);
+    }
+
 }

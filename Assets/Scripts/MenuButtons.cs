@@ -1,10 +1,11 @@
 using UnityEngine;
 
-public class MenuButtonAction : MonoBehaviour
+public class MenuButtons : MonoBehaviour
 {
     [SerializeField] private UIPunch punch;
     [SerializeField] private MenuManager menuManager;
     [SerializeField] private PauseMenuManager pauseMenuManager;
+    [SerializeField] private GoToMainMenuButton goToMainMenu;
     [SerializeField] private string sceneName;
 
     public void NewGame()
@@ -60,6 +61,11 @@ public class MenuButtonAction : MonoBehaviour
     public void QuitGameFromPause()
     {
         punch.PlayThen(() => pauseMenuManager.QuitGame());
+    }
+
+    public void GoToMainMenuFromEndScreen()
+    {
+        punch.PlayThen(() => goToMainMenu.GoToMainMenu());
     }
 
 }

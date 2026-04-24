@@ -220,9 +220,9 @@ public class PlayerController : MonoBehaviour
             }
 
             //sound effect
-            if (AudioManager.Instance != null && AudioManager.Instance.dashSFX != null)
+            if (AudioManager.Instance != null && (AudioManager.Instance.dash1SFX != null || AudioManager.Instance.dash2SFX != null))
             {
-                AudioManager.Instance.PlaySFX(AudioManager.Instance.dashSFX);
+                AudioManager.Instance.PlayRandomDash();
             }
 
             smokeFX.Play();
@@ -335,9 +335,9 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
 
-            if (AudioManager.Instance != null && AudioManager.Instance.jumpSFX != null)
+            if (AudioManager.Instance != null && (AudioManager.Instance.jump1SFX != null || AudioManager.Instance.jump2SFX != null))
             {
-                AudioManager.Instance.PlaySFX(AudioManager.Instance.jumpSFX);
+                AudioManager.Instance.PlayRandomJump();
             }
 
             jumpBufferCounter = 0f;
