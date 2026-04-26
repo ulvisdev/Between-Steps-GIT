@@ -24,6 +24,8 @@ public class MenuManager : MonoBehaviour
     public MenuInputHandler controlsMenuInputHandler;
     public MenuInputHandler musicMenuInputHandler;
 
+    //[SerializeField] private InputActionReference backAction;
+
     public LevelButton[] levelButtons;
 
     [Header("Options")]
@@ -59,6 +61,31 @@ public class MenuManager : MonoBehaviour
         CursorManager.Instance.ShowCursor();
 
     }
+
+    // void Update()
+    // {
+    //     if (SceneLoader.Instance != null && SceneLoader.Instance.IsLoading) return;
+
+    //     if (backAction.action.WasPressedThisFrame())
+    //     {
+    //         if (optionsMenu.gameObject.activeSelf)
+    //         {
+    //             ShowMainMenuFromOptions();
+    //         }
+    //         else if (levelMenu.gameObject.activeSelf)
+    //         {
+    //             ShowMainMenuFromLevel();
+    //         }
+    //         else if (controlsMenu.gameObject.activeSelf)
+    //         {
+    //             ShowOptionsMenuFromControls();
+    //         }
+    //         else if (musicMenu.gameObject.activeSelf)
+    //         {
+    //             ShowOptionsMenuFromMusic();
+    //         }
+    //     }
+    // }
 
     public void NewGame(string firstSceneName)
     {
@@ -246,6 +273,16 @@ public class MenuManager : MonoBehaviour
     {
         GameSettings.SpeedrunnerModeEnabled = isOn;
     }
+
+    // private void OnEnable()
+    // {
+    //     backAction.action.Enable();
+    // }
+
+    // private void OnDisable()
+    // {
+    //     backAction.action.Disable();
+    // }
 
     public void QuitGame()
     {

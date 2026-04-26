@@ -7,6 +7,7 @@ public class MenuInputHandler : MonoBehaviour
 {
     public CanvasGroup menuRoot;
     public Selectable firstSelectable;
+    public Selectable backupSelectable;
 
     void Update()
     {
@@ -30,6 +31,10 @@ public class MenuInputHandler : MonoBehaviour
         if (firstSelectable != null && firstSelectable.IsInteractable())
         {
             EventSystem.current.SetSelectedGameObject(firstSelectable.gameObject);
+        }
+        else if (backupSelectable != null && backupSelectable.IsInteractable())
+        {
+            EventSystem.current.SetSelectedGameObject(backupSelectable.gameObject);
         }
     }
 

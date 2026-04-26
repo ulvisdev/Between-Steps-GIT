@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using DG.Tweening;
+using UnityEngine.InputSystem;
 
 public class LevelPopUpManager : MonoBehaviour
 {
@@ -64,7 +65,10 @@ public class LevelPopUpManager : MonoBehaviour
         float waitTimer = 0f;
         while (!hasPlayerInteracted && waitTimer < maxWaitTime)
         {
-            if (Input.anyKeyDown || Input.GetMouseButtonDown(0))
+            
+            if ((Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame) ||
+                (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) ||
+                (Gamepad.current != null && Gamepad.current.wasUpdatedThisFrame))
             {
                 hasPlayerInteracted = true;
             }
@@ -75,7 +79,7 @@ public class LevelPopUpManager : MonoBehaviour
 
         yield return levelTextCanvasGroup.DOFade(0f, fadeDuration).SetEase(Ease.InOutSine);
 
-        if (GameSettings.SpeedrunnerModeEnabled &&levelTimer != null)
+        if (GameSettings.SpeedrunnerModeEnabled && levelTimer != null)
             levelTimer.SetTimerActive(true);
 
         currentPopUpRoutine = null;

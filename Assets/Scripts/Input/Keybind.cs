@@ -9,6 +9,7 @@ public class Keybind : MonoBehaviour
 
     [Header("Input")]
     [SerializeField] private InputActionReference actionToRebind;
+    [SerializeField] private int bindingIndex = 0;
 
     private InputActionRebindingExtensions.RebindingOperation rebindOperation;
 
@@ -20,12 +21,17 @@ public class Keybind : MonoBehaviour
 
     public void ChangeKey()
     {
-        buttonLbl.text = "Awaiting Input...";
+        int index = GetRealBindingIndex();
+
+        buttonLbl.text = "Awaiting";
 
         actionToRebind.action.Disable();
 
-        rebindOperation = actionToRebind.action.PerformInteractiveRebinding().WithControlsExcluding("Mouse")
+        rebindOperation = actionToRebind.action
+            .PerformInteractiveRebinding(index)
+            .WithControlsExcluding("Mouse")
             .WithCancelingThrough("<Keyboard>/escape")
+            .WithCancelingThrough("<Gamepad>/buttonEast")
             .OnComplete(operation =>
             {
                 operation.Dispose();
@@ -44,15 +50,25 @@ public class Keybind : MonoBehaviour
             .Start();
     }
 
+    private int GetRealBindingIndex()
+    {
+        if (actionToRebind.action.bindings[bindingIndex].isComposite)
+        {
+            return bindingIndex + 1;
+        }
+
+        return bindingIndex;
+    }
+
     private void UpdateLabel()
     {
-        buttonLbl.text = actionToRebind.action.GetBindingDisplayString();
+        int index = GetRealBindingIndex();
+        buttonLbl.text = actionToRebind.action.GetBindingDisplayString(index);
     }
 
     private void SaveBindings()
     {
         string rebinds = actionToRebind.action.actionMap.asset.SaveBindingOverridesAsJson();
-
         PlayerPrefs.SetString("InputBindings", rebinds);
         PlayerPrefs.Save();
     }
@@ -65,5 +81,10 @@ public class Keybind : MonoBehaviour
         {
             actionToRebind.action.actionMap.asset.LoadBindingOverridesFromJson(rebinds);
         }
+    }
+
+    private void OnDisable()
+    {
+        rebindOperation?.Dispose();
     }
 }

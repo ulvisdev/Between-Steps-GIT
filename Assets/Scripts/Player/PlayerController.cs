@@ -55,6 +55,11 @@ public class PlayerController : MonoBehaviour
     [Header("Respawn System")]
     public Transform currentCheckpoint;
 
+    [Header("Input System")]
+    [SerializeField] private InputActionReference moveAction;
+    [SerializeField] private InputActionReference jumpAction;
+    [SerializeField] private InputActionReference dashAction;
+
     // =========================
     // Runtime State
     // =========================
@@ -63,7 +68,7 @@ public class PlayerController : MonoBehaviour
     private float accelRate;
     private float XInput;
     private float YInput;
-    private float dashTrigger;
+    //private float dashTrigger;
 
     private float coyoteTimeCounter;
     private float jumpBufferCounter;
@@ -73,8 +78,8 @@ public class PlayerController : MonoBehaviour
     private bool isFacingRight = true;
     public bool isDashing;
     private bool canDash = true;
-    private bool dashPressed;
-    private bool triggerWasPressedLastFrame;
+    //private bool dashPressed;
+    //private bool triggerWasPressedLastFrame;
 
     public bool isDead = false;
 
@@ -126,41 +131,61 @@ public class PlayerController : MonoBehaviour
             YInput = 0f;
             targetSpeed = 0f;
             jumpBufferCounter = 0f;
-            dashPressed = false;
+            //dashPressed = false;
             return;
         }
 
-        XInput = Input.GetAxisRaw("Horizontal");
-        YInput = Input.GetAxisRaw("Vertical");
-        var dashInput = Input.GetButtonDown("Dash") /*|| Input.GetKeyDown(KeyCode.Keypad4)*/;
+        // XInput = Input.GetAxisRaw("Horizontal");
+        // YInput = Input.GetAxisRaw("Vertical");
+        // var dashInput = Input.GetButtonDown("Dash") /*|| Input.GetKeyDown(KeyCode.Keypad4)*/;
+
+        Vector2 moveInput = moveAction.action.ReadValue<Vector2>();
+
+        XInput = moveInput.x;
+        YInput = moveInput.y;
+
+        bool dashInput = dashAction.action.WasPressedThisFrame();
 
         // JOYSTICK CONTROLS ---------------------------------------------------
 
-        float dpadX = Input.GetAxisRaw("HorizontalDPad");
-        float dpadY = Input.GetAxisRaw("VerticalDPad");
+        // float dpadX = Input.GetAxisRaw("HorizontalDPad");
+        // float dpadY = Input.GetAxisRaw("VerticalDPad");
 
-        float stickX = Input.GetAxisRaw("HorizontalStick");
-        float stickY = Input.GetAxisRaw("VerticalStick");
+        // float stickX = Input.GetAxisRaw("HorizontalStick");
+        // float stickY = Input.GetAxisRaw("VerticalStick");
 
-        if (Mathf.Abs(stickX) < 0.6f) stickX = 0f; //fixes possible stick drifts
-        if (Mathf.Abs(stickY) < 0.6f) stickY = 0f; //fixes possible stick drifts
+        // if (Mathf.Abs(stickX) < 0.6f) stickX = 0f; //fixes possible stick drifts
+        // if (Mathf.Abs(stickY) < 0.6f) stickY = 0f; //fixes possible stick drifts
 
-        if (Mathf.Abs(stickX) > 0.1f) XInput = stickX;
-        if (Mathf.Abs(stickY) > 0.1f) YInput = stickY;
+        // if (Mathf.Abs(stickX) > 0.1f) XInput = stickX;
+        // if (Mathf.Abs(stickY) > 0.1f) YInput = stickY;
 
-        if (Mathf.Abs(dpadX) > 0.1f) XInput = dpadX;
-        if (Mathf.Abs(dpadY) > 0.1f) YInput = dpadY;
+        // if (Mathf.Abs(dpadX) > 0.1f) XInput = dpadX;
+        // if (Mathf.Abs(dpadY) > 0.1f) YInput = dpadY;
 
-        dashTrigger = Input.GetAxisRaw("DashTrigger");
-        //dashTrigger2 = Input.GetAxisRaw("DashTrigger2");
-        bool triggerPressedNow = dashTrigger > 0.2f /*|| dashTrigger2 > 0.2*/;
-        dashPressed = triggerPressedNow && !triggerWasPressedLastFrame;
-        triggerWasPressedLastFrame = triggerPressedNow;
+        // dashTrigger = Input.GetAxisRaw("DashTrigger");
+        // //dashTrigger2 = Input.GetAxisRaw("DashTrigger2");
+        // bool triggerPressedNow = dashTrigger > 0.2f /*|| dashTrigger2 > 0.2*/;
+        // dashPressed = triggerPressedNow && !triggerWasPressedLastFrame;
+        // triggerWasPressedLastFrame = triggerPressedNow;
 
-        dashInput = dashInput || dashPressed;
+        // dashInput = dashInput || dashPressed;
 
-        // block dash input during pause
-        bool dashHeld = Input.GetButton("Dash") || triggerPressedNow;
+        // // block dash input during pause
+        // bool dashHeld = Input.GetButton("Dash") || triggerPressedNow;
+
+        // if (requireDashReleaseAfterPause)
+        // {
+        //     if (!dashHeld)
+        //         requireDashReleaseAfterPause = false;
+
+        //     dashInput = false;
+        // }
+
+        // stick drift bleed cleanup
+        if (Mathf.Abs(XInput) < 0.1f) XInput = 0f;
+        if (Mathf.Abs(YInput) < 0.1f) YInput = 0f;
+        bool dashHeld = dashAction.action.IsPressed();
 
         if (requireDashReleaseAfterPause)
         {
@@ -200,16 +225,17 @@ public class PlayerController : MonoBehaviour
             // }
 
             //new fix for dpad dash direction
-            Vector2 dpadInput = new Vector2(dpadX, dpadY);
+            // Vector2 dpadInput = new Vector2(dpadX, dpadY);
 
-            if (dpadInput.sqrMagnitude > 0.01f)
-            {
-                dashingDir = dpadInput.normalized;
-            }
-            else
-            {
-                dashingDir = new Vector2(XInput, YInput);
-            }
+            // if (dpadInput.sqrMagnitude > 0.01f)
+            // {
+            //     dashingDir = dpadInput.normalized;
+            // }
+            // else
+            // {
+            //     dashingDir = new Vector2(XInput, YInput);
+            // }
+            dashingDir = new Vector2(XInput, YInput);
 
             //controller rumble
             activeGamepad = Gamepad.current;
@@ -310,8 +336,11 @@ public class PlayerController : MonoBehaviour
         //     jumpBufferCounter -= Time.deltaTime;
         // }
 
-        bool jumpPressed = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.JoystickButton0);
-        bool jumpHeld = Input.GetButton("Jump") || Input.GetKey(KeyCode.JoystickButton0);
+        // bool jumpPressed = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.JoystickButton0);
+        // bool jumpHeld = Input.GetButton("Jump") || Input.GetKey(KeyCode.JoystickButton0);
+
+        bool jumpPressed = jumpAction.action.WasPressedThisFrame();
+        bool jumpHeld = jumpAction.action.IsPressed();
 
         // block jump input during pause
         if (requireJumpReleaseAfterPause)
@@ -347,7 +376,8 @@ public class PlayerController : MonoBehaviour
 
         // HIGHER JUMP ON HOLD ------------------------------------------------------
 
-        if (Input.GetButtonUp("Jump") && rb.linearVelocity.y > 0f)
+        // if (Input.GetButtonUp("Jump") && rb.linearVelocity.y > 0f)
+        if (jumpAction.action.WasReleasedThisFrame() && rb.linearVelocity.y > 0f)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.4f); //change this 0.0f to lower the smallest jump possible
 
@@ -534,8 +564,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        moveAction.action.Enable();
+        jumpAction.action.Enable();
+        dashAction.action.Enable();
+    }
+
     private void OnDisable()
     {
+        moveAction.action.Disable();
+        jumpAction.action.Disable();
+        dashAction.action.Disable();
+
         StopRumble();
     }
 
@@ -592,8 +633,8 @@ public class PlayerController : MonoBehaviour
         targetSpeed = 0f;
 
         jumpBufferCounter = 0f;
-        dashPressed = false;
-        triggerWasPressedLastFrame = false;
+        //dashPressed = false;
+        //triggerWasPressedLastFrame = false;
     }
 
     public void OnGameResumed()
@@ -605,8 +646,8 @@ public class PlayerController : MonoBehaviour
         targetSpeed = 0f;
 
         jumpBufferCounter = 0f;
-        dashPressed = false;
-        triggerWasPressedLastFrame = false;
+        //dashPressed = false;
+        //triggerWasPressedLastFrame = false;
 
         requireJumpReleaseAfterPause = true;
         requireDashReleaseAfterPause = true;

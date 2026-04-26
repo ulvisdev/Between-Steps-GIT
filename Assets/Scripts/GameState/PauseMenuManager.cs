@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 public class PauseMenuManager : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class PauseMenuManager : MonoBehaviour
     public static bool isPaused;
     public MenuInputHandler pauseMenuInputHandler;
     [SerializeField] private PlayerController playerController;
+
+    [Header("Input System")]
+    [SerializeField] private InputActionReference pauseAction;
 
     void Start()
     {
@@ -23,7 +27,7 @@ public class PauseMenuManager : MonoBehaviour
     {
         if (SceneLoader.Instance != null && SceneLoader.Instance.IsLoading) return;
 
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton6))
+        if (pauseAction.action.WasPressedThisFrame())
         {
             if (isPaused) ResumeGame();
             else PauseGame();
@@ -93,6 +97,16 @@ public class PauseMenuManager : MonoBehaviour
 
         if (pauseMenuInputHandler != null)
             pauseMenuInputHandler.ClearSelection();
+    }
+
+    private void OnEnable()
+    {
+        pauseAction.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        pauseAction.action.Disable();
     }
 
     public void QuitGame()
